@@ -27,15 +27,16 @@ function renderGallery() {
     gallery.appendChild(card);
 
     // Клик по картинке
-    card.querySelector("img").addEventListener("click", () => {
-      selectedArg = bg.arg;
-      overlayImage.src = bg.file;
+card.querySelector("img").addEventListener("click", () => {
+  selectedArg = bg.arg;
+  overlayImage.src = bg.file;
 
-      overlayImage.style.transform = "scale(1)"; // сброс масштаба перед открытием
-      overlay.classList.remove("hidden");
+  overlayImage.style.transform = "scale(1)"; // сброс масштаба
+  overlay.classList.remove("hidden");
 
-      setTimeout(() => overlayImage.style.transform = "scale(2)", 10);
-    });
+  setTimeout(() => overlayImage.style.transform = "scale(1.1)", 10); // лёгкое увеличение
+});
+
   });
 }
 
