@@ -3,33 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fernie+ Кастомизация</title>
+  <title>Fernie+ Настройка Подписка</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Fernie+</h2>
-    <ul>
-      <li><a href="#">Профиль</a></li>
-      <li><a href="#">Кастомизация</a></li>
-      <li><a href="#">Настройки</a></li>
-    </ul>
+  <div class="header">
+    <h1>Fernie+ Настройка Подписка</h1>
+    <h2>Настроить фон профиля</h2>
   </div>
 
-  <div class="main">
-    <h1>Выбор фона профиля</h1>
-    <div class="gallery" id="gallery"></div>
+  <div class="gallery" id="gallery"></div>
 
-    <!-- Попап просмотра -->
-    <div id="viewer" class="viewer hidden">
-      <button id="backBtn">Назад</button>
-      <img id="viewerImg" src="" alt="">
-      <div class="viewer-controls">
-        <button id="prevView">◀</button>
-        <button id="setView">Установить</button>
-        <button id="nextView">▶</button>
+  <div class="overlay" id="overlay">
+    <div class="overlay-content">
+      <img id="overlay-img" src="" alt="">
+      <p id="overlay-name"></p>
+      <div class="overlay-buttons">
+        <button id="setBtn">Установить</button>
+        <button id="closeBtn">Свернуть</button>
       </div>
-      <button id="collapseView">Свернуть</button>
     </div>
   </div>
 
