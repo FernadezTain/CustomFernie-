@@ -83,3 +83,34 @@ button:hover {
   font-weight: 500;
   color: #2d3436;
 }
+
+/* Оверлей для увеличенной картинки */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.4s ease;
+}
+
+#overlay img {
+  max-width: 80%;
+  max-height: 80%;
+  transition: transform 0.4s ease;
+}
+
+#overlayButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#overlayButtons button {
+  padding: 10px 20px;
+}
