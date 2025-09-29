@@ -108,9 +108,12 @@ button:hover {
 #overlay img {
   max-width: 80%;
   max-height: 80%;
+  width: auto;
+  height: auto;
   transition: transform 0.4s ease;
-  border-radius: 12px;
+  transform-origin: center center; /* масштабируем из центра */
 }
+
 
 #overlayButtons {
   display: flex;
