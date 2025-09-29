@@ -3,6 +3,8 @@ const backgrounds = [
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1" },
   { file: "profile_banan.png", name: "Бананчики", arg: "banan" },
   { file: "profile_weather.png", name: "Облачка", arg: "weather" },
+  { file: "comming.png", name: "Скоро...", arg: "coms" },
+  { file: "comming.png", name: "Скоро...", arg: "coms" },
   { file: "comming.png", name: "Скоро...", arg: "coms" }
 ];
 
