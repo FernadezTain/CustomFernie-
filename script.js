@@ -1,5 +1,5 @@
 const backgrounds = [
-  { file: "profile.png", name: "Стандартный фон" },
+  { file: "profile_def.png", name: "Стандартный фон" },
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft" },
   { file: "profile_banan.png", name: "Бананчики" },
   { file: "profile_weather.png", name: "Облачка" }
