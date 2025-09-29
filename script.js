@@ -27,20 +27,17 @@ function renderGallery() {
     gallery.appendChild(card);
 
     // Клик по картинке
-card.querySelector("img").addEventListener("click", () => {
-  selectedArg = bg.arg;
-  overlayImage.src = bg.file;
+    card.querySelector("img").addEventListener("click", () => {
+      selectedArg = bg.arg;
+      overlayImage.src = bg.file;
 
-  overlayImage.style.transform = "scale(1)"; // сброс масштаба перед открытием
-  overlay.classList.remove("hidden");
+      overlayImage.style.transform = "scale(1)"; // сброс масштаба перед открытием
+      overlay.classList.remove("hidden");
 
-  setTimeout(() => overlayImage.style.transform = "scale(2)", 10);
-});
-
-closeBtn.addEventListener("click", () => {
-  overlayImage.style.transform = "scale(1)";
-  setTimeout(() => overlay.classList.add("hidden"), 300);
-});
+      setTimeout(() => overlayImage.style.transform = "scale(2)", 10);
+    });
+  });
+}
 
 // Открыть кастомизацию
 openBtn.addEventListener("click", () => {
@@ -71,7 +68,7 @@ backBtn.addEventListener("click", () => {
   setTimeout(() => openBtn.style.opacity = "1", 100);
 });
 
-// Свернуть оверлей
+// Свернуть оверлей — вынесено из renderGallery
 closeBtn.addEventListener("click", () => {
   overlayImage.style.transform = "scale(1)";
   setTimeout(() => overlay.classList.add("hidden"), 300);
