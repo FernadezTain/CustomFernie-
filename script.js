@@ -27,14 +27,20 @@ function renderGallery() {
     gallery.appendChild(card);
 
     // Клик по картинке
-    card.querySelector("img").addEventListener("click", () => {
-      selectedArg = bg.arg;
-      overlayImage.src = bg.file;
-      overlay.classList.remove("hidden");
-      setTimeout(() => overlayImage.style.transform = "scale(2)", 10);
-    });
-  });
-}
+card.querySelector("img").addEventListener("click", () => {
+  selectedArg = bg.arg;
+  overlayImage.src = bg.file;
+
+  overlayImage.style.transform = "scale(1)"; // сброс масштаба перед открытием
+  overlay.classList.remove("hidden");
+
+  setTimeout(() => overlayImage.style.transform = "scale(2)", 10);
+});
+
+closeBtn.addEventListener("click", () => {
+  overlayImage.style.transform = "scale(1)";
+  setTimeout(() => overlay.classList.add("hidden"), 300);
+});
 
 // Открыть кастомизацию
 openBtn.addEventListener("click", () => {
