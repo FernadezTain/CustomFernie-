@@ -6,49 +6,47 @@ const backgrounds = [
 ];
 
 
-let currentIndex = 0;
-let selectedBg = null;
+const openBtn = document.getElementById("openBtn");
+const backBtn = document.getElementById("backBtn");
+const gallery = document.getElementById("gallery");
+const title = document.getElementById("title");
 
+// Заполнение галереи
 function renderGallery() {
-  const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
-
-  // показываем 4 фона подряд
-  const visible = backgrounds.slice(currentIndex, currentIndex + 4);
-  visible.forEach(bg => {
+  backgrounds.forEach(bg => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}"><p>${bg.name}</p>`;
-    card.addEventListener("click", () => {
-      selectedBg = bg;
-      document.getElementById("selected").textContent = "Выбрано: " + bg.name;
-    });
     gallery.appendChild(card);
   });
 }
 
-document.getElementById("prevBtn").addEventListener("click", () => {
-  if (currentIndex > 0) {
-    currentIndex -= 1;
-    renderGallery();
-  }
+// Открыть кастомизацию
+openBtn.addEventListener("click", () => {
+  openBtn.style.opacity = "0";
+  setTimeout(() => openBtn.classList.add("hidden"), 400);
+
+  title.style.transform = "translateY(-180px)";
+  title.style.fontSize = "22px";
+
+  renderGallery();
+  gallery.classList.add("show");
+  gallery.classList.remove("hidden");
+
+  backBtn.classList.remove("hidden");
 });
 
-document.getElementById("nextBtn").addEventListener("click", () => {
-  if (currentIndex < backgrounds.length - 4) {
-    currentIndex += 1;
-    renderGallery();
-  }
-});
+// Назад
+backBtn.addEventListener("click", () => {
+  gallery.classList.remove("show");
+  setTimeout(() => gallery.classList.add("hidden"), 400);
 
-document.getElementById("saveBtn").addEventListener("click", () => {
-  if (selectedBg) {
-    localStorage.setItem("selectedBackground", selectedBg.file);
-    alert("Фон установлен: " + selectedBg.name);
-  } else {
-    alert("Сначала выберите фон!");
-  }
-});
+  backBtn.classList.add("hidden");
 
-// при загрузке
-renderGallery();
+  title.style.transform = "translateY(0)";
+  title.style.fontSize = "28px";
+
+  openBtn.classList.remove("hidden");
+  setTimeout(() => openBtn.style.opacity = "1", 100);
+});
