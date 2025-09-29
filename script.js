@@ -82,5 +82,5 @@ closeBtn.addEventListener("click", () => {
 
 // Установить фон — переход в бот
 setBtn.addEventListener("click", () => {
-  window.location.href = `https://t.me/FernieUIBot?start=${selectedArg}`;
+  window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
