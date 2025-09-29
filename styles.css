@@ -3,10 +3,13 @@ body {
   font-family: "Segoe UI", sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start; /* изменено, чтобы был скролл сверху */
+  min-height: 100vh;
   background: linear-gradient(135deg, #74b9ff, #a29bfe);
-  overflow: hidden;
+  overflow-y: auto; /* включаем вертикальный скролл */
+  -webkit-overflow-scrolling: touch; /* плавный скролл на телефонах */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .container {
@@ -77,6 +80,7 @@ button:hover {
   height: 150px;
   object-fit: cover;
   display: block;
+  border-radius: 12px; /* закругляем фото */
 }
 
 .card p {
@@ -106,15 +110,14 @@ button:hover {
 }
 
 #overlay img {
-  max-width: 60%;
-  max-height: 60%;
+  max-width: 90%;
+  max-height: 90%;
   width: auto;
   height: auto;
   transition: transform 0.4s ease;
-  transform-origin: center center; /* масштабируем из центра */
-  border-radius: 12px; /* <-- добавлено закругление */
+  transform-origin: center center;
+  border-radius: 12px;
 }
-
 
 #overlayButtons {
   display: flex;
