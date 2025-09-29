@@ -34,7 +34,7 @@ card.querySelector("img").addEventListener("click", () => {
   overlayImage.style.transform = "scale(1)"; // сброс масштаба
   overlay.classList.remove("hidden");
 
-  setTimeout(() => overlayImage.style.transform = "scale(1.1)", 10); // лёгкое увеличение
+  setTimeout(() => overlayImage.style.transform = "scale(1.0005)", 10); // лёгкое увеличение
 });
 
   });
