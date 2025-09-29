@@ -5,33 +5,40 @@ const backgrounds = [
   { file: "profile_weather.png", name: "Облачка" }
 ];
 
-const gallery = document.getElementById("gallery");
+const openGalleryBtn = document.getElementById("openGalleryBtn");
 const overlay = document.getElementById("overlay");
+const gallery = document.getElementById("gallery");
+const selectedBgDiv = document.getElementById("selected-bg");
 const overlayImg = document.getElementById("overlay-img");
-const overlayName = document.getElementById("overlay-name");
 
 let selectedBg = null;
 
+openGalleryBtn.addEventListener("click", () => {
+  overlay.style.display = "flex";
+  renderGallery();
+});
+
 function renderGallery() {
   gallery.innerHTML = "";
+  selectedBgDiv.style.display = "none";
+
   backgrounds.forEach(bg => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}"><p>${bg.name}</p>`;
-    card.addEventListener("click", () => showOverlay(bg));
+    card.addEventListener("click", () => showSelectedBg(bg));
     gallery.appendChild(card);
   });
 }
 
-function showOverlay(bg) {
+function showSelectedBg(bg) {
   selectedBg = bg;
   overlayImg.src = bg.file;
-  overlayName.textContent = bg.name;
-  overlay.style.display = "flex";
+  selectedBgDiv.style.display = "block";
 }
 
 document.getElementById("closeBtn").addEventListener("click", () => {
-  overlay.style.display = "none";
+  selectedBgDiv.style.display = "none";
 });
 
 document.getElementById("setBtn").addEventListener("click", () => {
@@ -41,5 +48,3 @@ document.getElementById("setBtn").addEventListener("click", () => {
     overlay.style.display = "none";
   }
 });
-
-renderGallery();
