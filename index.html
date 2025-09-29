@@ -3,29 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fernie+ Настройка Подписка</title>
+  <title>Fernie+ Кастомизация</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="container">
-  <button id="openGalleryBtn" class="main-button">Настроить фон профиля</button>
-</div>
-
-<!-- Галерея -->
-<div class="overlay" id="overlay">
-  <div class="overlay-content">
-    <div class="gallery" id="gallery"></div>
-    <div class="selected-bg" id="selected-bg">
-      <img id="overlay-img" src="" alt="">
-      <div class="overlay-buttons">
-        <button id="setBtn">Установить</button>
-        <button id="closeBtn">Свернуть</button>
-      </div>
-    </div>
+  <div class="sidebar">
+    <h2>Fernie+</h2>
+    <ul>
+      <li><a href="#">Профиль</a></li>
+      <li><a href="#">Кастомизация</a></li>
+      <li><a href="#">Настройки</a></li>
+    </ul>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <div class="main">
+    <h1>Выбор фона профиля</h1>
+    <div class="gallery" id="gallery">
+      <!-- сюда JS вставит карточки -->
+    </div>
+    <div class="controls">
+      <button id="prevBtn">◀</button>
+      <button id="nextBtn">▶</button>
+    </div>
+    <p id="selected">Ничего не выбрано</p>
+    <button id="saveBtn">Установить</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
