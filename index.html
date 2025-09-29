@@ -7,24 +7,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="header">
-    <h1>Fernie+ Настройка Подписка</h1>
-    <h2>Настроить фон профиля</h2>
-  </div>
 
-  <div class="gallery" id="gallery"></div>
+<div class="container">
+  <button id="openGalleryBtn" class="main-button">Настроить фон профиля</button>
+</div>
 
-  <div class="overlay" id="overlay">
-    <div class="overlay-content">
+<!-- Галерея -->
+<div class="overlay" id="overlay">
+  <div class="overlay-content">
+    <div class="gallery" id="gallery"></div>
+    <div class="selected-bg" id="selected-bg">
       <img id="overlay-img" src="" alt="">
-      <p id="overlay-name"></p>
       <div class="overlay-buttons">
         <button id="setBtn">Установить</button>
         <button id="closeBtn">Свернуть</button>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
