@@ -3,7 +3,7 @@ const backgrounds = [
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1" },
   { file: "profile_banan.png", name: "Бананчики", arg: "banan" },
   { file: "profile_weather.png", name: "Облачка", arg: "weather" },
-  { file: "roblox.png", name: "Скоро...", arg: "Roblox" }
+  { file: "comming.png", name: "Скоро...", arg: "coms" }
 ];
 
 const openBtn = document.getElementById("openBtn");
