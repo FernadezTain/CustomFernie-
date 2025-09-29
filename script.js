@@ -5,46 +5,50 @@ const backgrounds = [
   { file: "profile_weather.png", name: "Облачка" }
 ];
 
-const openGalleryBtn = document.getElementById("openGalleryBtn");
-const overlay = document.getElementById("overlay");
-const gallery = document.getElementById("gallery");
-const selectedBgDiv = document.getElementById("selected-bg");
-const overlayImg = document.getElementById("overlay-img");
 
+let currentIndex = 0;
 let selectedBg = null;
 
-openGalleryBtn.addEventListener("click", () => {
-  overlay.style.display = "flex";
-  renderGallery();
-});
-
 function renderGallery() {
+  const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
-  selectedBgDiv.style.display = "none";
 
-  backgrounds.forEach(bg => {
+  // показываем 4 фона подряд
+  const visible = backgrounds.slice(currentIndex, currentIndex + 4);
+  visible.forEach(bg => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}"><p>${bg.name}</p>`;
-    card.addEventListener("click", () => showSelectedBg(bg));
+    card.addEventListener("click", () => {
+      selectedBg = bg;
+      document.getElementById("selected").textContent = "Выбрано: " + bg.name;
+    });
     gallery.appendChild(card);
   });
 }
 
-function showSelectedBg(bg) {
-  selectedBg = bg;
-  overlayImg.src = bg.file;
-  selectedBgDiv.style.display = "block";
-}
-
-document.getElementById("closeBtn").addEventListener("click", () => {
-  selectedBgDiv.style.display = "none";
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex -= 1;
+    renderGallery();
+  }
 });
 
-document.getElementById("setBtn").addEventListener("click", () => {
+document.getElementById("nextBtn").addEventListener("click", () => {
+  if (currentIndex < backgrounds.length - 4) {
+    currentIndex += 1;
+    renderGallery();
+  }
+});
+
+document.getElementById("saveBtn").addEventListener("click", () => {
   if (selectedBg) {
     localStorage.setItem("selectedBackground", selectedBg.file);
     alert("Фон установлен: " + selectedBg.name);
-    overlay.style.display = "none";
+  } else {
+    alert("Сначала выберите фон!");
   }
 });
+
+// при загрузке
+renderGallery();
