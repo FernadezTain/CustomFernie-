@@ -5,55 +5,41 @@ const backgrounds = [
   { file: "profile_weather.png", name: "Облачка" }
 ];
 
-let currentIndex = 0;
-let selectedIndex = 0;
+const gallery = document.getElementById("gallery");
+const overlay = document.getElementById("overlay");
+const overlayImg = document.getElementById("overlay-img");
+const overlayName = document.getElementById("overlay-name");
+
+let selectedBg = null;
 
 function renderGallery() {
-  const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
-  backgrounds.forEach((bg, index) => {
+  backgrounds.forEach(bg => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}"><p>${bg.name}</p>`;
-    card.addEventListener("click", () => openViewer(index));
+    card.addEventListener("click", () => showOverlay(bg));
     gallery.appendChild(card);
   });
 }
 
-function openViewer(index) {
-  selectedIndex = index;
-  const viewer = document.getElementById("viewer");
-  const viewerImg = document.getElementById("viewerImg");
-  viewerImg.src = backgrounds[index].file;
-  viewer.classList.remove("hidden");
+function showOverlay(bg) {
+  selectedBg = bg;
+  overlayImg.src = bg.file;
+  overlayName.textContent = bg.name;
+  overlay.style.display = "flex";
 }
 
-function closeViewer() {
-  document.getElementById("viewer").classList.add("hidden");
-}
+document.getElementById("closeBtn").addEventListener("click", () => {
+  overlay.style.display = "none";
+});
 
-function prevViewer() {
-  selectedIndex = (selectedIndex - 1 + backgrounds.length) % backgrounds.length;
-  document.getElementById("viewerImg").src = backgrounds[selectedIndex].file;
-}
-
-function nextViewer() {
-  selectedIndex = (selectedIndex + 1) % backgrounds.length;
-  document.getElementById("viewerImg").src = backgrounds[selectedIndex].file;
-}
-
-function setViewer() {
-  const bg = backgrounds[selectedIndex];
-  const param = bg.file.includes("banan") ? "banan" :
-                bg.file.includes("Minecraft") ? "minecraft" :
-                bg.file.includes("weather") ? "weather" : "def";
-  window.open(`https://t.me/FernieUIBot?start=custF_${param}`, "_blank");
-}
-
-document.getElementById("backBtn").addEventListener("click", closeViewer);
-document.getElementById("collapseView").addEventListener("click", closeViewer);
-document.getElementById("prevView").addEventListener("click", prevViewer);
-document.getElementById("nextView").addEventListener("click", nextViewer);
-document.getElementById("setView").addEventListener("click", setViewer);
+document.getElementById("setBtn").addEventListener("click", () => {
+  if (selectedBg) {
+    localStorage.setItem("selectedBackground", selectedBg.file);
+    alert("Фон установлен: " + selectedBg.name);
+    overlay.style.display = "none";
+  }
+});
 
 renderGallery();
