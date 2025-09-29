@@ -30,10 +30,16 @@ card.querySelector("img").addEventListener("click", () => {
   selectedArg = bg.arg;
   overlayImage.src = bg.file;
 
-  overlayImage.style.transform = "scale(1)"; // сброс масштаба
+  overlayImage.style.transform = "scale(1)";
   overlay.classList.remove("hidden");
 
-  setTimeout(() => overlayImage.style.transform = "scale(1.05)", 10); // лёгкое увеличение на 5%
+  // Получаем текущие размеры картинки
+  const rect = overlayImage.getBoundingClientRect();
+  const scaleX = (rect.width + 10) / rect.width; // +10px ширина
+  const scaleY = (rect.height + 10) / rect.height; // +10px высота
+  const scale = Math.min(scaleX, scaleY);
+
+  setTimeout(() => overlayImage.style.transform = `scale(${scale})`, 10);
 });
 
   });
