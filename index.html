@@ -3,30 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fernie+ Кастомизация</title>
+  <title>Fernie+ настройка подписки</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Fernie+</h2>
-    <ul>
-      <li><a href="#">Профиль</a></li>
-      <li><a href="#">Кастомизация</a></li>
-      <li><a href="#">Настройки</a></li>
-    </ul>
-  </div>
+  <div class="container">
+    <h1 id="title">Fernie+ настройка подписки</h1>
+    <button id="openBtn">Настроить фон профиля</button>
 
-  <div class="main">
-    <h1>Выбор фона профиля</h1>
-    <div class="gallery" id="gallery">
-      <!-- сюда JS вставит карточки -->
-    </div>
-    <div class="controls">
-      <button id="prevBtn">◀</button>
-      <button id="nextBtn">▶</button>
-    </div>
-    <p id="selected">Ничего не выбрано</p>
-    <button id="saveBtn">Установить</button>
+    <div class="gallery hidden" id="gallery"></div>
+    <button id="backBtn" class="hidden">Назад</button>
   </div>
 
   <script src="script.js"></script>
