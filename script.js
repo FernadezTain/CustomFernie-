@@ -2,7 +2,8 @@ const backgrounds = [
   { file: "profile_def.png", name: "Стандартный фон", arg: "def" },
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1" },
   { file: "profile_banan.png", name: "Бананчики", arg: "banan" },
-  { file: "profile_weather.png", name: "Облачка", arg: "weather" }
+  { file: "profile_weather.png", name: "Облачка", arg: "weather" },
+  { file: "roblox.png", name: "Скоро...", arg: "Roblox" }
 ];
 
 const openBtn = document.getElementById("openBtn");
