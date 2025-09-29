@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fernie+ Настройка подписки</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fernie+ Кастомизация</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1 id="main-title">Fernie+ настройка подписки</h1>
-    </header>
+  <div class="sidebar">
+    <h2>Fernie+</h2>
+    <ul>
+      <li><a href="#">Профиль</a></li>
+      <li><a href="#">Кастомизация</a></li>
+      <li><a href="#">Настройки</a></li>
+    </ul>
+  </div>
 
-    <div class="container">
-        <button id="customize-btn">Настроить фон профиля</button>
+  <div class="main">
+    <h1>Выбор фона профиля</h1>
+    <div class="gallery" id="gallery"></div>
 
-        <div id="gallery" class="hidden">
-            <!-- Фотки будут динамически вставлены сюда -->
-        </div>
-
-        <div id="photo-view" class="hidden">
-            <img id="selected-photo" src="" alt="">
-            <div class="photo-controls">
-                <button id="prev-btn">⬅️</button>
-                <button id="set-btn">Установить</button>
-                <button id="next-btn">➡️</button>
-            </div>
-            <button id="collapse-btn">Свернуть</button>
-            <button id="back-btn">Назад</button>
-        </div>
+    <!-- Попап просмотра -->
+    <div id="viewer" class="viewer hidden">
+      <button id="backBtn">Назад</button>
+      <img id="viewerImg" src="" alt="">
+      <div class="viewer-controls">
+        <button id="prevView">◀</button>
+        <button id="setView">Установить</button>
+        <button id="nextView">▶</button>
+      </div>
+      <button id="collapseView">Свернуть</button>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
