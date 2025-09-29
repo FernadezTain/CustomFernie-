@@ -5,13 +5,14 @@ const backgrounds = [
   { file: "profile_weather.png", name: "Облачка" }
 ];
 
-
 const openBtn = document.getElementById("openBtn");
 const backBtn = document.getElementById("backBtn");
 const gallery = document.getElementById("gallery");
 const title = document.getElementById("title");
+const sideButtons = document.getElementById("sideButtons");
+const setBtn = document.getElementById("setBtn");
+const collapseBtn = document.getElementById("collapseBtn");
 
-// Заполнение галереи
 function renderGallery() {
   gallery.innerHTML = "";
   backgrounds.forEach(bg => {
@@ -19,10 +20,31 @@ function renderGallery() {
     card.className = "card";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}"><p>${bg.name}</p>`;
     gallery.appendChild(card);
+
+    // Клик по фото
+    card.querySelector("img").addEventListener("click", () => {
+      enlargeImage(bg.file);
+    });
   });
 }
 
-// Открыть кастомизацию
+function enlargeImage(src) {
+  const img = document.createElement("img");
+  img.src = src;
+  img.className = "enlarged-img";
+  document.body.appendChild(img);
+
+  sideButtons.classList.add("show");
+  sideButtons.classList.remove("hidden");
+
+  // Клик по увеличенному фото для сворачивания
+  img.addEventListener("click", () => {
+    img.remove();
+    sideButtons.classList.remove("show");
+    sideButtons.classList.add("hidden");
+  });
+}
+
 openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
   setTimeout(() => openBtn.classList.add("hidden"), 400);
@@ -37,7 +59,6 @@ openBtn.addEventListener("click", () => {
   backBtn.classList.remove("hidden");
 });
 
-// Назад
 backBtn.addEventListener("click", () => {
   gallery.classList.remove("show");
   setTimeout(() => gallery.classList.add("hidden"), 400);
@@ -49,4 +70,6 @@ backBtn.addEventListener("click", () => {
 
   openBtn.classList.remove("hidden");
   setTimeout(() => openBtn.style.opacity = "1", 100);
+
+  sideButtons.classList.remove("show");
 });
