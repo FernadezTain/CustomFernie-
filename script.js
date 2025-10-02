@@ -29,22 +29,21 @@ function renderGallery() {
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
     gallery.appendChild(card);
 
-card.querySelector("img").addEventListener("click", () => {
-  selectedArg = bg.arg;
-  overlayImage.src = bg.file;
+    card.querySelector("img").addEventListener("click", () => {
+      selectedArg = bg.arg;
+      overlayImage.src = bg.file;
 
-  overlayImage.style.transform = "scale(1)";
-  overlay.classList.remove("hidden");
+      overlayImage.style.transform = "scale(1)";
+      overlay.classList.remove("hidden");
 
-  // Получаем текущие размеры картинки
-  const rect = overlayImage.getBoundingClientRect();
-  const scaleX = (rect.width + 10) / rect.width; // +10px ширина
-  const scaleY = (rect.height + 10) / rect.height; // +10px высота
-  const scale = Math.min(scaleX, scaleY);
+      // Анимация увеличения
+      const rect = overlayImage.getBoundingClientRect();
+      const scaleX = (rect.width + 10) / rect.width;
+      const scaleY = (rect.height + 10) / rect.height;
+      const scale = Math.min(scaleX, scaleY);
 
-  setTimeout(() => overlayImage.style.transform = `scale(${scale})`, 10);
-});
-
+      setTimeout(() => overlayImage.style.transform = `scale(${scale})`, 10);
+    });
   });
 }
 
@@ -53,7 +52,8 @@ openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
   setTimeout(() => openBtn.classList.add("hidden"), 400);
 
-  title.style.transform = "translateY(-180px)";
+  // Заголовок теперь плавно сдвигается вверх
+  title.style.transform = "translateY(-50px)";
   title.style.fontSize = "22px";
 
   renderGallery();
@@ -75,9 +75,12 @@ backBtn.addEventListener("click", () => {
 
   openBtn.classList.remove("hidden");
   setTimeout(() => openBtn.style.opacity = "1", 100);
+
+  // Фикс: возвращаем скролл вверх на телефонах
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// Свернуть оверлей — вынесено из renderGallery
+// Закрыть оверлей
 closeBtn.addEventListener("click", () => {
   overlayImage.style.transform = "scale(1)";
   setTimeout(() => overlay.classList.add("hidden"), 300);
