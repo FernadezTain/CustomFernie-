@@ -115,32 +115,30 @@ button:hover {
   height: 100vh;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
+  flex-direction: column; /* чтобы картинка сверху, кнопки снизу */
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  transition: opacity 0.4s ease;
+  gap: 15px;
+  padding: 20px;
+  box-sizing: border-box;
   z-index: 1000;
-}
-
-#overlay.hidden {
-  display: none;
 }
 
 #overlay img {
   max-width: 90%;
-  max-height: 90%;
-  width: auto;
-  height: auto;
-  transition: transform 0.4s ease;
-  transform-origin: center center;
+  max-height: 70%; /* чтобы фото не перекрывало всё */
   border-radius: 12px;
 }
 
 #overlayButtons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* кнопки в ряд */
   gap: 10px;
+  flex-wrap: wrap; /* если не влезут – переносятся */
+  justify-content: center;
+  width: 100%;
 }
+
 
 #overlayButtons button {
   padding: 10px 20px;
