@@ -124,6 +124,10 @@ button:hover {
   z-index: 1000;
 }
 
+#overlay.hidden {
+  display: none;
+}
+
 #overlay img {
   max-width: 90%;
   max-height: 70%; /* чтобы фото не перекрывало всё */
