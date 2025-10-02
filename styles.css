@@ -3,12 +3,12 @@ body {
   font-family: "Segoe UI", sans-serif;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* изменено, чтобы был скролл сверху */
+  align-items: flex-start; /* чтобы был скролл сверху */
   min-height: 100vh;
   background: linear-gradient(270deg, #74b9ff, #a29bfe, #00cec9, #fab1a0);
   background-size: 600% 600%;
   animation: gradientBG 12s ease infinite;
-  overflow-y: auto; /* включаем вертикальный скролл */
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch; /* плавный скролл на телефонах */
   padding: 20px;
   box-sizing: border-box;
@@ -31,7 +31,8 @@ h1 {
   margin-bottom: 30px;
   font-size: 28px;
   color: white;
-  transition: all 0.6s ease;
+  transition: transform 0.6s ease, font-size 0.6s ease; /* плавный сдвиг */
+  position: relative; /* сохраняет место */
 }
 
 button {
@@ -55,7 +56,7 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(0, 168, 255, 0.7); /* неоновая подсветка */
+  box-shadow: 0 0 15px rgba(0, 168, 255, 0.7);
 }
 
 .hidden {
@@ -96,7 +97,7 @@ button:hover {
   height: 150px;
   object-fit: cover;
   display: block;
-  border-radius: 12px; /* закругляем фото */
+  border-radius: 12px;
 }
 
 .card p {
@@ -156,5 +157,5 @@ button:hover {
 
 #overlayButtons button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(0, 168, 255, 0.7); /* подсветка */
+  box-shadow: 0 0 12px rgba(0, 168, 255, 0.7);
 }
