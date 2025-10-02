@@ -52,8 +52,12 @@ openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
   setTimeout(() => openBtn.classList.add("hidden"), 400);
 
-  // Заголовок теперь плавно сдвигается вверх
-  title.style.transform = "translateY(-50px)";
+  // ✅ если экран маленький — поднимаем меньше
+  if (window.innerWidth < 600) {
+    title.style.transform = "translateY(-80px)";
+  } else {
+    title.style.transform = "translateY(-180px)";
+  }
   title.style.fontSize = "22px";
 
   renderGallery();
@@ -62,6 +66,7 @@ openBtn.addEventListener("click", () => {
 
   backBtn.classList.remove("hidden");
 });
+
 
 // Назад
 backBtn.addEventListener("click", () => {
