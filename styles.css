@@ -5,11 +5,19 @@ body {
   justify-content: center;
   align-items: flex-start; /* изменено, чтобы был скролл сверху */
   min-height: 100vh;
-  background: linear-gradient(135deg, #74b9ff, #a29bfe);
+  background: linear-gradient(270deg, #74b9ff, #a29bfe, #00cec9, #fab1a0);
+  background-size: 600% 600%;
+  animation: gradientBG 12s ease infinite;
   overflow-y: auto; /* включаем вертикальный скролл */
   -webkit-overflow-scrolling: touch; /* плавный скролл на телефонах */
   padding: 20px;
   box-sizing: border-box;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container {
@@ -31,15 +39,23 @@ button {
   font-size: 16px;
   border: none;
   border-radius: 10px;
-  background: #00a8ff;
+  background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
+  background-size: 400% 400%;
+  animation: gradientBtn 8s ease infinite;
   color: white;
   cursor: pointer;
-  transition: transform 0.3s, opacity 0.3s, background 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+@keyframes gradientBtn {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 button:hover {
-  background: #0097e6;
   transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 168, 255, 0.7); /* неоновая подсветка */
 }
 
 .hidden {
@@ -130,13 +146,15 @@ button:hover {
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  background: #00a8ff;
+  background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
+  background-size: 400% 400%;
+  animation: gradientBtn 8s ease infinite;
   color: white;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition: transform 0.3s;
 }
 
 #overlayButtons button:hover {
-  background: #0097e6;
   transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 168, 255, 0.7); /* подсветка */
 }
