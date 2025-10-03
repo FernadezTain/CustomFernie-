@@ -150,6 +150,31 @@ button:hover {
   width: 100%;
 }
 
+/* Кнопка "Установить" зелененькая */
+#setBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(270deg, #2ecc71, #27ae60, #2ecc71, #27ae60);
+  background-size: 400% 400%;
+  animation: gradientSet 6s ease infinite;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+@keyframes gradientSet {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#setBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.7);
+}
+
 #overlayButtons button:hover {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(0,168,255,0.7);
@@ -162,10 +187,28 @@ button:hover {
   position: relative;
 }
 
+/* Кнопка "Фильтр" желтенькая */
 #filterBtn {
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 8px;
+  background: linear-gradient(270deg, #FFD700, #FFC107, #FFEB3B, #FFCA28);
+  background-size: 400% 400%;
+  animation: gradientFilter 6s ease infinite;
+  color: #2d3436;
+  border: none;
+  cursor: pointer;
+}
+
+@keyframes gradientFilter {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#filterBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 235, 59, 0.7);
 }
 
 #filterOptions {
@@ -256,11 +299,11 @@ footer {
   color: #fff;
   line-height: 1.5;
   padding: 15px 10px;
-  background: transparent; /* убираем тёмный фон */
+  background: transparent; /* без темного фона */
+  margin-top: auto; /* чтобы прижимался к низу */
 }
 
 footer a {
   color: #00a8ff;
   text-decoration: underline;
 }
-
