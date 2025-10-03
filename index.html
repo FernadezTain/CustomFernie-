@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fernie+ настройка подписки</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .container {
+      flex: 1;
+    }
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+      line-height: 1.5;
+      padding: 15px 10px;
+      background: rgba(0,0,0,0.3);
+    }
+    footer a {
+      color: #00a8ff;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -14,16 +36,16 @@
     <!-- 🔽 Кнопка фильтра -->
     <div class="filter-container hidden" id="filterContainer">
       <button id="filterBtn">Фильтр</button>
-<div id="filterOptions" class="hidden">
-  <input type="text" id="searchInput" placeholder="Поиск фонов..." />
-  <button class="filter-option" data-category="all">Все</button>
-  <button class="filter-option" data-category="standard">Стандартные</button>
-  <button class="filter-option" data-category="custom">Пользовательские</button>
-  <button class="filter-option" data-category="anime">Аниме</button>
-  <button class="filter-option" data-category="animals">Животные</button>
-  <button class="filter-option" data-category="nature">Природа</button>
-  <button class="filter-option" data-category="architecture">Архитектура</button>
-</div>
+      <div id="filterOptions" class="hidden">
+        <input type="text" id="searchInput" placeholder="Поиск фонов..." />
+        <button class="filter-option" data-category="all">Все</button>
+        <button class="filter-option" data-category="standard">Стандартные</button>
+        <button class="filter-option" data-category="custom">Пользовательские</button>
+        <button class="filter-option" data-category="anime">Аниме</button>
+        <button class="filter-option" data-category="animals">Животные</button>
+        <button class="filter-option" data-category="nature">Природа</button>
+        <button class="filter-option" data-category="architecture">Архитектура</button>
+      </div>
     </div>
 
     <div class="gallery hidden" id="gallery"></div>
@@ -39,13 +61,14 @@
     </div>
   </div>
 
+  <!-- Футер -->
+  <footer>
+    © 2025. Все права защищены сервисом FernieX<br>
+    Использование подразумевает согласие с 
+    <a href="https://fernie-x.vercel.app/terms.html" target="_blank">условиями</a> и 
+    <a href="https://fernie-x.vercel.app/privacy.html" target="_blank">политикой конфиденциальности</a>.
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
-<!-- Футер -->
-<footer style="text-align:center; margin-top:30px; font-size:14px; color:#fff; line-height:1.5;">
-  © 2025. Все права защищены сервисом FernieX<br>
-  Использование подразумевает согласие с 
-  <a href="https://fernie-x.vercel.app/terms.html" target="_blank" style="color:#00a8ff; text-decoration:underline;">условиями</a> и 
-  <a href="https://fernie-x.vercel.app/privacy.html" target="_blank" style="color:#00a8ff; text-decoration:underline;">политикой конфиденциальности</a>.
-</footer>
