@@ -85,12 +85,15 @@ button:hover {
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  transform: translateY(0); /* дефолт */
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(0); /* 🔥 теперь скейл + смещение */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
+
 
 .card img {
   width: 100%;
