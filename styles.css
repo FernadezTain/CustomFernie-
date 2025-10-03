@@ -248,3 +248,12 @@ button:hover {
   opacity: 1;
 }
 
+#searchInput {
+  width: 90%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
