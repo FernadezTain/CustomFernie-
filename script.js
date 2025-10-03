@@ -102,19 +102,20 @@ backBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// Фильтр кнопка
+// кнопка фильтра
 filterBtn.addEventListener("click", () => {
   filterOptions.classList.toggle("show");
 });
 
-// Клик по категории
+// клик по категории
 document.querySelectorAll(".filter-option").forEach(btn => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
-    filterOptions.classList.add("hidden");
+    filterOptions.classList.remove("show"); // закрываем плавно
     renderGallery();
   });
 });
+
 
 // Закрыть оверлей
 closeBtn.addEventListener("click", () => {
