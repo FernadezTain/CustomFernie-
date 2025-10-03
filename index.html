@@ -14,15 +14,16 @@
     <!-- 🔽 Кнопка фильтра -->
     <div class="filter-container hidden" id="filterContainer">
       <button id="filterBtn">Фильтр</button>
-      <div id="filterOptions" class="hidden">
-        <button class="filter-option" data-category="all">Все</button>
-        <button class="filter-option" data-category="standard">Стандартные</button>
-        <button class="filter-option" data-category="custom">Пользовательские</button>
-        <button class="filter-option" data-category="anime">Аниме</button>
-        <button class="filter-option" data-category="animals">Животные</button>
-        <button class="filter-option" data-category="nature">Природа</button>
-        <button class="filter-option" data-category="architecture">Архитектура</button>
-      </div>
+<div id="filterOptions" class="hidden">
+  <input type="text" id="searchInput" placeholder="Поиск фонов..." />
+  <button class="filter-option" data-category="all">Все</button>
+  <button class="filter-option" data-category="standard">Стандартные</button>
+  <button class="filter-option" data-category="custom">Пользовательские</button>
+  <button class="filter-option" data-category="anime">Аниме</button>
+  <button class="filter-option" data-category="animals">Животные</button>
+  <button class="filter-option" data-category="nature">Природа</button>
+  <button class="filter-option" data-category="architecture">Архитектура</button>
+</div>
     </div>
 
     <div class="gallery hidden" id="gallery"></div>
