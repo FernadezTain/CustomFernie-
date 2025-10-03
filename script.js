@@ -36,7 +36,7 @@ function renderGallery() {
 
   if (filtered.length === 0) {
     const msg = document.createElement("p");
-    msg.textContent = "Ничего не найдено";
+    msg.textContent = "Ничего не найдено :(";
     msg.className = "no-results";
     gallery.appendChild(msg);
 
