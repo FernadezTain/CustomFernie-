@@ -9,7 +9,6 @@ const backgrounds = [
   { file: "profile_anime1.png", name: "Светлая мечта", arg: "profile_anime1", category: ["standard", "anime"] },
   { file: "profile_anime2.png", name: "В обьятиях неба", arg: "profile_anime2", category: ["standard", "anime"] },
   { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture"] },
-  { file: "comming.png", name: "Скоро...", arg: "coms", category: ["standard"] }
 ];
 
 
