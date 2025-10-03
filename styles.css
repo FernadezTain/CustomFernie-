@@ -161,3 +161,50 @@ button:hover {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(0, 168, 255, 0.7);
 }
+
+/* Фильтр */
+.filter-container {
+  margin: 15px auto 20px;
+  text-align: center;
+  position: relative;
+}
+
+#filterBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+#filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.9);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 500;
+}
+
+#filterOptions.hidden {
+  display: none;
+}
+
+.filter-option {
+  background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.filter-option:hover {
+  transform: scale(1.05);
+}
+
