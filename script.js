@@ -25,20 +25,11 @@ const filterContainer = document.getElementById("filterContainer");
 const filterBtn = document.getElementById("filterBtn");
 const filterOptions = document.getElementById("filterOptions");
 
+// Используем существующий input из HTML
+const searchInput = document.getElementById("searchInput");
+
 let selectedArg = "";
 let currentCategory = "all";
-
-const searchInput = document.createElement("input");
-searchInput.type = "text";
-searchInput.id = "searchInput";
-searchInput.placeholder = "Поиск фонов...";
-searchInput.style.width = "90%";
-searchInput.style.padding = "8px 12px";
-searchInput.style.marginBottom = "8px";
-searchInput.style.borderRadius = "6px";
-searchInput.style.border = "1px solid #ccc";
-searchInput.style.fontSize = "14px";
-filterOptions.prepend(searchInput);
 
 // Рендер галереи с фильтром и поиском
 function renderGallery() {
@@ -79,7 +70,7 @@ function renderGallery() {
   });
 }
 
-// Реакция на ввод в поле поиска
+// Фильтрация по вводу текста
 searchInput.addEventListener("input", () => {
   renderGallery();
 });
