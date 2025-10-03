@@ -6,6 +6,7 @@ const backgrounds = [
   { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: ["custom", "nature"] },
   { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: ["custom"] },
   { file: "Danivak50_2.png", name: "Danivak50 - 2", arg: "Danivak50_2", category: ["custom", "animals"] },
+  { file: "profile_anime1.png", name: "Светлая мечта", arg: "profile_anime1", category: ["standard", "anime"] },
   { file: "comming.png", name: "Скоро...", arg: "coms", category: ["standard"] }
 ];
 
