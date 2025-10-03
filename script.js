@@ -11,7 +11,6 @@ const backgrounds = [
   { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture"] },
 ];
 
-
 const openBtn = document.getElementById("openBtn");
 const backBtn = document.getElementById("backBtn");
 const gallery = document.getElementById("gallery");
@@ -29,13 +28,29 @@ const filterOptions = document.getElementById("filterOptions");
 let selectedArg = "";
 let currentCategory = "all";
 
-// Рендер галереи с фильтром
+const searchInput = document.createElement("input");
+searchInput.type = "text";
+searchInput.id = "searchInput";
+searchInput.placeholder = "Поиск фонов...";
+searchInput.style.width = "90%";
+searchInput.style.padding = "8px 12px";
+searchInput.style.marginBottom = "8px";
+searchInput.style.borderRadius = "6px";
+searchInput.style.border = "1px solid #ccc";
+searchInput.style.fontSize = "14px";
+filterOptions.prepend(searchInput);
+
+// Рендер галереи с фильтром и поиском
 function renderGallery() {
   gallery.innerHTML = "";
 
-  const filtered = backgrounds.filter(bg =>
-    currentCategory === "all" || bg.category.includes(currentCategory)
-  );
+  const searchText = searchInput.value.toLowerCase().trim();
+
+  const filtered = backgrounds.filter(bg => {
+    const matchCategory = currentCategory === "all" || bg.category.includes(currentCategory);
+    const matchSearch = bg.name.toLowerCase().includes(searchText);
+    return matchCategory && matchSearch;
+  });
 
   if (filtered.length === 0) {
     const msg = document.createElement("p");
@@ -64,6 +79,10 @@ function renderGallery() {
   });
 }
 
+// Реакция на ввод в поле поиска
+searchInput.addEventListener("input", () => {
+  renderGallery();
+});
 
 // Открыть кастомизацию
 openBtn.addEventListener("click", () => {
@@ -83,6 +102,11 @@ openBtn.addEventListener("click", () => {
 
   backBtn.classList.remove("hidden");
   filterContainer.classList.remove("hidden");
+
+  // Автофокус на мобильных
+  if (window.innerWidth < 600) {
+    searchInput.focus();
+  }
 });
 
 // Назад
@@ -102,20 +126,19 @@ backBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// кнопка фильтра
+// Кнопка фильтра
 filterBtn.addEventListener("click", () => {
   filterOptions.classList.toggle("show");
 });
 
-// клик по категории
+// Клик по категории
 document.querySelectorAll(".filter-option").forEach(btn => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
-    filterOptions.classList.remove("show"); // закрываем плавно
+    filterOptions.classList.remove("show");
     renderGallery();
   });
 });
-
 
 // Закрыть оверлей
 closeBtn.addEventListener("click", () => {
