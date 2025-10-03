@@ -1,11 +1,11 @@
 const backgrounds = [
-  { file: "profile_def.png", name: "Стандартный фон", arg: "def" },
-  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1" },
-  { file: "profile_banan.png", name: "Бананчики", arg: "banan" },
-  { file: "profile_weather.png", name: "Облачка", arg: "weather" },
-  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1" },
-  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1" },
-  { file: "comming.png", name: "Скоро...", arg: "coms" }
+  { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: "standard" },
+  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: "custom" },
+  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: "custom" },
+  { file: "profile_weather.png", name: "Облачка", arg: "weather", category: "standard" },
+  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: "anime" },
+  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: "anime" },
+  { file: "comming.png", name: "Скоро...", arg: "coms", category: "standard" }
 ];
 
 const openBtn = document.getElementById("openBtn");
@@ -18,33 +18,31 @@ const overlayImage = document.getElementById("overlayImage");
 const setBtn = document.getElementById("setBtn");
 const closeBtn = document.getElementById("closeBtn");
 
-let selectedArg = "";
+const filterContainer = document.getElementById("filterContainer");
+const filterBtn = document.getElementById("filterBtn");
+const filterOptions = document.getElementById("filterOptions");
 
-// Заполнение галереи
+let selectedArg = "";
+let currentCategory = "all";
+
+// Рендер галереи с фильтром
 function renderGallery() {
   gallery.innerHTML = "";
-  backgrounds.forEach(bg => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
-    gallery.appendChild(card);
+  backgrounds
+    .filter(bg => currentCategory === "all" || bg.category === currentCategory)
+    .forEach(bg => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
+      gallery.appendChild(card);
 
-    card.querySelector("img").addEventListener("click", () => {
-      selectedArg = bg.arg;
-      overlayImage.src = bg.file;
-
-      overlayImage.style.transform = "scale(1)";
-      overlay.classList.remove("hidden");
-
-      // Анимация увеличения
-      const rect = overlayImage.getBoundingClientRect();
-      const scaleX = (rect.width + 10) / rect.width;
-      const scaleY = (rect.height + 10) / rect.height;
-      const scale = Math.min(scaleX, scaleY);
-
-      setTimeout(() => overlayImage.style.transform = `scale(${scale})`, 10);
+      card.querySelector("img").addEventListener("click", () => {
+        selectedArg = bg.arg;
+        overlayImage.src = bg.file;
+        overlayImage.style.transform = "scale(1)";
+        overlay.classList.remove("hidden");
+      });
     });
-  });
 }
 
 // Открыть кастомизацию
@@ -52,7 +50,6 @@ openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
   setTimeout(() => openBtn.classList.add("hidden"), 400);
 
-  // ✅ если экран маленький — поднимаем меньше
   if (window.innerWidth < 600) {
     title.style.transform = "translateY(-80px)";
   } else {
@@ -65,8 +62,8 @@ openBtn.addEventListener("click", () => {
   gallery.classList.remove("hidden");
 
   backBtn.classList.remove("hidden");
+  filterContainer.classList.remove("hidden");
 });
-
 
 // Назад
 backBtn.addEventListener("click", () => {
@@ -74,6 +71,7 @@ backBtn.addEventListener("click", () => {
   setTimeout(() => gallery.classList.add("hidden"), 400);
 
   backBtn.classList.add("hidden");
+  filterContainer.classList.add("hidden");
 
   title.style.transform = "translateY(0)";
   title.style.fontSize = "28px";
@@ -81,8 +79,21 @@ backBtn.addEventListener("click", () => {
   openBtn.classList.remove("hidden");
   setTimeout(() => openBtn.style.opacity = "1", 100);
 
-  // Фикс: возвращаем скролл вверх на телефонах
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// Фильтр кнопка
+filterBtn.addEventListener("click", () => {
+  filterOptions.classList.toggle("hidden");
+});
+
+// Клик по категории
+document.querySelectorAll(".filter-option").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentCategory = btn.dataset.category;
+    filterOptions.classList.add("hidden");
+    renderGallery();
+  });
 });
 
 // Закрыть оверлей
