@@ -179,19 +179,23 @@ button:hover {
 }
 
 #filterOptions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, auto); /* ровно 5 вниз */
   gap: 8px;
+
   position: absolute;
   top: 110%;
   left: 50%;
   transform: translateX(-50%);
+  
   background: rgba(255,255,255,0.9);
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   z-index: 500;
 }
+
 
 #filterOptions.hidden {
   display: none;
