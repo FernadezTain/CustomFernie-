@@ -1,15 +1,16 @@
+/* Общие стили */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: flex-start; /* чтобы был скролл сверху */
+  flex-direction: column;
+  align-items: center; /* центр по горизонтали */
   min-height: 100vh;
   background: linear-gradient(270deg, #74b9ff, #a29bfe, #00cec9, #fab1a0);
   background-size: 600% 600%;
   animation: gradientBG 12s ease infinite;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* плавный скролл на телефонах */
+  -webkit-overflow-scrolling: touch;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -20,6 +21,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+/* Контейнер */
 .container {
   text-align: center;
   width: 90%;
@@ -27,14 +29,16 @@ body {
   transition: all 0.6s ease;
 }
 
+/* Заголовок */
 h1 {
   margin-bottom: 30px;
   font-size: 28px;
   color: white;
-  transition: transform 0.6s ease, font-size 0.6s ease; /* плавный сдвиг */
-  position: relative; /* сохраняет место */
+  transition: transform 0.6s ease, font-size 0.6s ease;
+  position: relative;
 }
 
+/* Кнопки */
 button {
   padding: 12px 24px;
   font-size: 16px;
@@ -79,21 +83,21 @@ button:hover {
   transform: translateY(0);
 }
 
+/* Карточки */
 .card {
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
-  transform: translateY(0); /* дефолт */
+  transform: translateY(0);
 }
 
 .card:hover {
-  transform: scale(1.05) translateY(0); /* 🔥 теперь скейл + смещение */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05) translateY(0);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
-
 
 .card img {
   width: 100%;
@@ -116,9 +120,9 @@ button:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.7);
   display: flex;
-  flex-direction: column; /* чтобы картинка сверху, кнопки снизу */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 15px;
@@ -133,36 +137,22 @@ button:hover {
 
 #overlay img {
   max-width: 90%;
-  max-height: 70%; /* чтобы фото не перекрывало всё */
+  max-height: 70%;
   border-radius: 12px;
 }
 
 #overlayButtons {
   display: flex;
-  flex-direction: row; /* кнопки в ряд */
+  flex-direction: row;
   gap: 10px;
-  flex-wrap: wrap; /* если не влезут – переносятся */
+  flex-wrap: wrap;
   justify-content: center;
   width: 100%;
 }
 
-
-#overlayButtons button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
-  background-size: 400% 400%;
-  animation: gradientBtn 8s ease infinite;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
 #overlayButtons button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(0, 168, 255, 0.7);
+  box-shadow: 0 0 12px rgba(0,168,255,0.7);
 }
 
 /* Фильтр */
@@ -221,6 +211,7 @@ button:hover {
 .filter-option:hover {
   transform: scale(1.05);
 }
+
 /* Анимация появления/исчезновения */
 .fade {
   opacity: 0;
@@ -232,7 +223,6 @@ button:hover {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
 
 /* Сообщение "Ничего не найдено" */
 .no-results {
@@ -248,6 +238,7 @@ button:hover {
   opacity: 1;
 }
 
+/* Поиск */
 #searchInput {
   width: 90%;
   padding: 8px 12px;
@@ -257,3 +248,18 @@ button:hover {
   font-size: 14px;
 }
 
+/* Футер */
+footer {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.5;
+  padding: 15px 10px;
+  background: rgba(0,0,0,0.3);
+}
+
+footer a {
+  color: #00a8ff;
+  text-decoration: underline;
+}
