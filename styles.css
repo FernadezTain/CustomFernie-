@@ -256,10 +256,11 @@ footer {
   color: #fff;
   line-height: 1.5;
   padding: 15px 10px;
-  background: rgba(0,0,0,0.3);
+  background: transparent; /* убираем тёмный фон */
 }
 
 footer a {
   color: #00a8ff;
   text-decoration: underline;
 }
+
