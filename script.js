@@ -1,10 +1,10 @@
 const backgrounds = [
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: "standard" },
-  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: "custom" },
-  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: "custom" },
+  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: "standard" },
+  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: "standard" },
   { file: "profile_weather.png", name: "Облачка", arg: "weather", category: "standard" },
-  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: "anime" },
-  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: "anime" },
+  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: "custom" },
+  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: "custom" },
   { file: "comming.png", name: "Скоро...", arg: "coms", category: "standard" }
 ];
 
