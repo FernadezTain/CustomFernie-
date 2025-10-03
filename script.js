@@ -1,7 +1,7 @@
 const backgrounds = [
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: "standard" },
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: "standard" },
-  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: "standard" },
+  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: "standard", "anime" },
   { file: "profile_weather.png", name: "Облачка", arg: "weather", category: "standard" },
   { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: "custom" },
   { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: "custom" },
@@ -29,7 +29,9 @@ let currentCategory = "all";
 function renderGallery() {
   gallery.innerHTML = "";
 
-  const filtered = backgrounds.filter(bg => currentCategory === "all" || bg.category === currentCategory);
+  const filtered = backgrounds.filter(bg =>
+    currentCategory === "all" || bg.category.includes(currentCategory)
+  );
 
   if (filtered.length === 0) {
     const msg = document.createElement("p");
@@ -37,7 +39,6 @@ function renderGallery() {
     msg.className = "no-results";
     gallery.appendChild(msg);
 
-    // Плавное появление текста
     setTimeout(() => msg.classList.add("show"), 50);
     return;
   }
@@ -48,7 +49,6 @@ function renderGallery() {
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
     gallery.appendChild(card);
 
-    // Плавное появление карточки
     setTimeout(() => card.classList.add("show"), 50);
 
     card.querySelector("img").addEventListener("click", () => {
