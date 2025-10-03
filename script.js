@@ -104,7 +104,7 @@ backBtn.addEventListener("click", () => {
 
 // Фильтр кнопка
 filterBtn.addEventListener("click", () => {
-  filterOptions.classList.toggle("hidden");
+  filterOptions.classList.toggle("show");
 });
 
 // Клик по категории
