@@ -213,14 +213,15 @@ button:hover {
 /* Анимация появления/исчезновения */
 .fade {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(15px) scale(1);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .fade.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
+
 
 /* Сообщение "Ничего не найдено" */
 .no-results {
