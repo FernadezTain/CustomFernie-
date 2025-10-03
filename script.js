@@ -28,22 +28,38 @@ let currentCategory = "all";
 // Рендер галереи с фильтром
 function renderGallery() {
   gallery.innerHTML = "";
-  backgrounds
-    .filter(bg => currentCategory === "all" || bg.category === currentCategory)
-    .forEach(bg => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
-      gallery.appendChild(card);
 
-      card.querySelector("img").addEventListener("click", () => {
-        selectedArg = bg.arg;
-        overlayImage.src = bg.file;
-        overlayImage.style.transform = "scale(1)";
-        overlay.classList.remove("hidden");
-      });
+  const filtered = backgrounds.filter(bg => currentCategory === "all" || bg.category === currentCategory);
+
+  if (filtered.length === 0) {
+    const msg = document.createElement("p");
+    msg.textContent = "Ничего не найдено";
+    msg.className = "no-results";
+    gallery.appendChild(msg);
+
+    // Плавное появление текста
+    setTimeout(() => msg.classList.add("show"), 50);
+    return;
+  }
+
+  filtered.forEach(bg => {
+    const card = document.createElement("div");
+    card.className = "card fade";
+    card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
+    gallery.appendChild(card);
+
+    // Плавное появление карточки
+    setTimeout(() => card.classList.add("show"), 50);
+
+    card.querySelector("img").addEventListener("click", () => {
+      selectedArg = bg.arg;
+      overlayImage.src = bg.file;
+      overlayImage.style.transform = "scale(1)";
+      overlay.classList.remove("hidden");
     });
+  });
 }
+
 
 // Открыть кастомизацию
 openBtn.addEventListener("click", () => {
