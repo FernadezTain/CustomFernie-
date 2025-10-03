@@ -181,7 +181,7 @@ button:hover {
 #filterOptions {
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(5, auto); /* ровно 5 вниз */
+  grid-template-rows: repeat(5, auto);
   gap: 8px;
 
   position: absolute;
@@ -207,6 +207,7 @@ button:hover {
   pointer-events: auto;
   transform: translateX(-50%) scale(1);
 }
+
 
 #filterOptions.hidden {
   display: none;
