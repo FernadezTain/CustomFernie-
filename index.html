@@ -11,6 +11,17 @@
     <h1 id="title">Fernie+ настройка подписки</h1>
     <button id="openBtn">Настроить фон профиля</button>
 
+    <!-- 🔽 Кнопка фильтра -->
+    <div class="filter-container hidden" id="filterContainer">
+      <button id="filterBtn">Фильтр ⬇</button>
+      <div id="filterOptions" class="hidden">
+        <button class="filter-option" data-category="all">Все</button>
+        <button class="filter-option" data-category="standard">Стандартные</button>
+        <button class="filter-option" data-category="custom">Пользовательские</button>
+        <button class="filter-option" data-category="anime">Аниме</button>
+      </div>
+    </div>
+
     <div class="gallery hidden" id="gallery"></div>
     <button id="backBtn" class="hidden">Назад</button>
   </div>
