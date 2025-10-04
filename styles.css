@@ -446,14 +446,23 @@ button.fade-in {
   border: none;
   cursor: pointer;
   background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
+  background-size: 400% 400%;
+  animation: gradientBtn 8s ease infinite;
   color: white;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+@keyframes gradientBtn {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .farm-buttons button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(0, 168, 255, 0.7);
+  box-shadow: 0 0 15px rgba(0, 168, 255, 0.7);
 }
+
 /* Повторений */
 .farm-repeat p:first-child {
   font-weight: 600; /* чуть жирнее */
