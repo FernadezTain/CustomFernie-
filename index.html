@@ -12,13 +12,20 @@
     <button id="openBtn">Настроить фон профиля</button>
     <button id="openFarm">Настроить фон профиля</button>
 
-<div id="farmMenu" class="hidden">
+<div id="farmMenu" class="hidden farm-block">
   <h2>Настройка Авто-Добычи</h2>
-  <label for="farmSlider">Повторений: <span id="farmValue">1</span></label>
-  <input type="range" id="farmSlider" min="1" max="10" value="1">
+
+  <div class="slider-container">
+    <div class="slider-track">
+      <div class="slider-fill" id="sliderFill"></div>
+    </div>
+    <div class="slider-steps" id="sliderSteps"></div>
+  </div>
+
+  <p>Повторений: <span id="farmValue">1</span></p>
   <button id="closeFarm">Закрыть</button>
 </div>
-    
+
     <!-- 🔽 Кнопка фильтра -->
     <div class="filter-container hidden" id="filterContainer">
       <button id="filterBtn">Фильтр</button>
