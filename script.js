@@ -142,38 +142,51 @@ setBtn.addEventListener("click", () => {
   window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
 
+// === Автодобыча ===
 const openFarm = document.getElementById("openFarm");
 const farmMenu = document.getElementById("farmMenu");
 const closeFarm = document.getElementById("closeFarm");
 const farmSlider = document.getElementById("farmSlider");
 const farmValue = document.getElementById("farmValue");
 
-// Обновление градиента ползунка
-function updateSlider() {
-  const val = farmSlider.value;
+// Функция обновления с анимацией или без
+function setSliderValue(val, animate = true) {
   farmValue.textContent = val;
   const percent = ((val - farmSlider.min) / (farmSlider.max - farmSlider.min)) * 100;
+  farmSlider.style.transition = animate ? "background-size 0.3s ease" : "none";
   farmSlider.style.backgroundSize = percent + "% 100%";
 }
-farmSlider.addEventListener("input", updateSlider);
-updateSlider();
 
-// Открытие меню автодобычи
+// Во время движения мышкой/пальцем — обновляем без анимации
+farmSlider.addEventListener("input", () => {
+  setSliderValue(farmSlider.value, false);
+});
+
+// Когда отпустили — снапим к ближайшему числу и анимируем
+farmSlider.addEventListener("change", () => {
+  const rounded = Math.round(farmSlider.value);
+  farmSlider.value = rounded;
+  setSliderValue(rounded, true);
+});
+
+// Первичная инициализация
+setSliderValue(farmSlider.value);
+
+// === Меню автодобычи ===
 openFarm.addEventListener("click", () => {
   farmMenu.classList.remove("hidden");
 });
 
-// Закрытие меню
 closeFarm.addEventListener("click", () => {
   farmMenu.classList.add("hidden");
 });
 
 // === Интеграция с меню фонов ===
 openBtn.addEventListener("click", () => {
-  openFarm.classList.add("hidden"); // спрятать кнопку автодобычи при открытии фонов
+  openFarm.classList.add("hidden");
 });
 
 backBtn.addEventListener("click", () => {
-  openFarm.classList.remove("hidden"); // вернуть кнопку после выхода
+  openFarm.classList.remove("hidden");
 });
 
