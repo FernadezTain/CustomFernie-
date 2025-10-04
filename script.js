@@ -142,42 +142,38 @@ setBtn.addEventListener("click", () => {
   window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
 
-// === Автодобыча ===
 const openFarm = document.getElementById("openFarm");
 const farmMenu = document.getElementById("farmMenu");
 const closeFarm = document.getElementById("closeFarm");
-const farmSlider = document.getElementById("farmSlider");
 const farmValue = document.getElementById("farmValue");
+const sliderFill = document.getElementById("sliderFill");
+const sliderSteps = document.getElementById("sliderSteps");
 
-// Функция обновления с анимацией или без
-function setSliderValue(val, animate = true) {
-  farmValue.textContent = val;
-  const percent = ((val - farmSlider.min) / (farmSlider.max - farmSlider.min)) * 100;
+const steps = 10; // 1–10
+let current = 1;
 
-  // Активная часть (переливка) = percent%
-  // Пассивная часть (тонкая белая) = всегда 100%
-  farmSlider.style.backgroundSize = `${percent}% 100%, 100% 40%`;
-
-  if (animate) {
-    farmSlider.style.transition = "background-size 0.3s ease";
-  } else {
-    farmSlider.style.transition = "none";
-  }
+// генерируем шаги
+for (let i = 1; i <= steps; i++) {
+  const step = document.createElement("span");
+  step.textContent = i;
+  if (i === current) step.classList.add("active");
+  step.addEventListener("click", () => setStep(i));
+  sliderSteps.appendChild(step);
 }
 
-// Во время движения мышкой/пальцем — обновляем без анимации
+function setStep(val) {
+  current = val;
+  farmValue.textContent = val;
+  const percent = (val / steps) * 100;
+  sliderFill.style.width = percent + "%";
 
-farmSlider.addEventListener("input", () => setSliderValue(farmSlider.value, false));
+  [...sliderSteps.children].forEach((child, idx) => {
+    child.classList.toggle("active", idx + 1 === val);
+  });
+}
 
-// Когда отпустили — снапим к ближайшему числу и анимируем
-farmSlider.addEventListener("change", () => {
-  const rounded = Math.round(farmSlider.value);
-  farmSlider.value = rounded;
-  setSliderValue(rounded, true);
-});
-
-// Первичная инициализация
-setSliderValue(farmSlider.value);
+// начальное значение
+setStep(current);
 
 // === Меню автодобычи ===
 openFarm.addEventListener("click", () => {
