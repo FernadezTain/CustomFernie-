@@ -415,3 +415,18 @@ button.fade-in {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
+/* Заголовок Авто-Добычи */
+.farm-title {
+  display: flex;
+  justify-content: center;
+  gap: 8px;       /* Расстояние между словами */
+  flex-wrap: nowrap; /* На ПК слова в одну строку */
+}
+
+/* На мобильных устройствах — перенос на 2 строки */
+@media (max-width: 600px) {
+  .farm-title {
+    flex-direction: column;
+    gap: 4px;  /* Немного меньше расстояние между строками */
+  }
+}
