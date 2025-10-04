@@ -307,45 +307,41 @@ footer a {
   color: #00a8ff;
   text-decoration: underline;
 }
-/* Меню автодобычи */
-/* Общий контейнер меню */
-#farmMenu {
-  margin-top: 20px;
-  padding: 20px;
-  background: rgba(255,255,255,0.9);
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-/* Базовый ползунок */
 #farmSlider {
   width: 80%;
   height: 12px;
   border-radius: 6px;
   outline: none;
   appearance: none;
-  background: #eee;
-  overflow: hidden;
   cursor: pointer;
 
-  /* 🌈 переливающийся градиент */
-  background: linear-gradient(270deg, #00c6ff, #0072ff, #00c6ff);
-  background-size: 400% 100%;   /* шире, чтобы был запас для движения */
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  transition: background-size 0.3s ease;
+  /* сразу делаем "двойной фон":
+     1) переливка для активной части
+     2) белая тонкая линия для остатка */
+  background: 
+    linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff) no-repeat, /* активная часть */
+    linear-gradient(90deg, #ffffff, #ffffff) no-repeat;          /* пассивная часть */
 
-  animation: farmGradient 6s linear infinite; /* анимация */
+  background-size: 0% 100%, 100% 40%; /* по умолчанию активная часть = 0 */
+  background-position: left center, left center;
+  background-repeat: no-repeat;
+
+  border-radius: 6px;
+  transition: background-size 0.3s ease;
 }
 
-/* Дорожка */
+/* Дорожка (делаем прозрачной, фон управляем сами) */
 #farmSlider::-webkit-slider-runnable-track {
   height: 12px;
   background: transparent;
 }
 
-/* Бегунок (WebKit) */
+#farmSlider::-moz-range-track {
+  height: 12px;
+  background: transparent;
+}
+
+/* Бегунок */
 #farmSlider::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
@@ -363,7 +359,6 @@ footer a {
   transform: scale(1.2);
 }
 
-/* Бегунок (Firefox) */
 #farmSlider::-moz-range-thumb {
   width: 20px;
   height: 20px;
@@ -379,9 +374,9 @@ footer a {
   transform: scale(1.2);
 }
 
-/* 🌈 Ключевые кадры перелива */
+/* Переливающаяся анимация */
 @keyframes farmGradient {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0%   { background-position: 0% 50%, left center; }
+  50%  { background-position: 100% 50%, left center; }
+  100% { background-position: 0% 50%, left center; }
 }
