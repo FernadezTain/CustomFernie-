@@ -130,6 +130,14 @@ setBtn.addEventListener("click", () => {
   window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
 
+const applyFarm = document.getElementById("applyFarm");
+
+applyFarm.addEventListener("click", () => {
+  const arg = `AFarm_${current}`;
+  window.location.href = `https://t.me/FernieUIBot?start=CustF${arg}`;
+});
+
+
 // --- Авто-Добыча ---
 const openFarm = document.getElementById("openFarm");
 const farmMenu = document.getElementById("farmMenu");
