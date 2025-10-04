@@ -153,7 +153,7 @@ const steps = 10; // 1–10
 let current = 1;
 let isDragging = false;
 
-// Генерируем шаги (визуальные деления)
+// Генерируем шаги визуально (только для отметок)
 for (let i = 1; i <= steps; i++) {
   const step = document.createElement("span");
   step.textContent = i;
@@ -161,7 +161,7 @@ for (let i = 1; i <= steps; i++) {
   sliderSteps.appendChild(step);
 }
 
-// Обновляем состояние слайдера
+// Обновление состояния слайдера
 function setStep(val, animate = true) {
   if (val < 1) val = 1;
   if (val > steps) val = steps;
@@ -170,12 +170,7 @@ function setStep(val, animate = true) {
   farmValue.textContent = val;
   const percent = (val / steps) * 100;
 
-  if (animate) {
-    sliderFill.style.transition = "width 0.2s ease";
-  } else {
-    sliderFill.style.transition = "none";
-  }
-
+  sliderFill.style.transition = animate ? "width 0.2s ease" : "none";
   sliderFill.style.width = percent + "%";
 
   [...sliderSteps.children].forEach((child, idx) => {
@@ -183,7 +178,7 @@ function setStep(val, animate = true) {
   });
 }
 
-// Функция для расчёта шага по позиции мыши/пальца
+// Получаем шаг по координате курсора на ползунке
 function getStepFromPointer(e) {
   const rect = sliderSteps.getBoundingClientRect();
   const x = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
@@ -192,7 +187,13 @@ function getStepFromPointer(e) {
   return Math.ceil(relativeX / stepWidth);
 }
 
-// === События для плавного движения слайдера ===
+// Обновление слайдера при движении мыши/пальца
+function updateSlider(e) {
+  const step = getStepFromPointer(e);
+  setStep(step, false);
+}
+
+// События для drag-to-move
 sliderSteps.addEventListener("mousedown", e => { isDragging = true; updateSlider(e); });
 sliderSteps.addEventListener("touchstart", e => { isDragging = true; updateSlider(e); }, {passive: true});
 
@@ -201,11 +202,6 @@ window.addEventListener("touchmove", e => { if (isDragging) updateSlider(e); }, 
 
 window.addEventListener("mouseup", () => { if (isDragging) { isDragging = false; setStep(current, true); } });
 window.addEventListener("touchend", () => { if (isDragging) { isDragging = false; setStep(current, true); } });
-
-function updateSlider(e) {
-  const step = getStepFromPointer(e);
-  setStep(step, false);
-}
 
 // Инициализация
 setStep(current, true);
