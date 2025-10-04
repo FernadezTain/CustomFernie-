@@ -24,31 +24,25 @@ const closeBtn = document.getElementById("closeBtn");
 const filterContainer = document.getElementById("filterContainer");
 const filterBtn = document.getElementById("filterBtn");
 const filterOptions = document.getElementById("filterOptions");
-
-// Используем существующий input из HTML
 const searchInput = document.getElementById("searchInput");
 
 let selectedArg = "";
 let currentCategory = "all";
 
-// Рендер галереи с фильтром и поиском
+// --- Галерея ---
 function renderGallery() {
   gallery.innerHTML = "";
-
   const searchText = searchInput.value.toLowerCase().trim();
+  const filtered = backgrounds.filter(bg => 
+    (currentCategory === "all" || bg.category.includes(currentCategory)) &&
+    bg.name.toLowerCase().includes(searchText)
+  );
 
-  const filtered = backgrounds.filter(bg => {
-    const matchCategory = currentCategory === "all" || bg.category.includes(currentCategory);
-    const matchSearch = bg.name.toLowerCase().includes(searchText);
-    return matchCategory && matchSearch;
-  });
-
-  if (filtered.length === 0) {
+  if(filtered.length === 0) {
     const msg = document.createElement("p");
     msg.textContent = "Ничего не найдено :(";
     msg.className = "no-results";
     gallery.appendChild(msg);
-
     setTimeout(() => msg.classList.add("show"), 50);
     return;
   }
@@ -58,7 +52,6 @@ function renderGallery() {
     card.className = "card fade";
     card.innerHTML = `<img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}"><p>${bg.name}</p>`;
     gallery.appendChild(card);
-
     setTimeout(() => card.classList.add("show"), 50);
 
     card.querySelector("img").addEventListener("click", () => {
@@ -70,21 +63,20 @@ function renderGallery() {
   });
 }
 
-// Фильтрация по вводу текста
-searchInput.addEventListener("input", () => {
-  renderGallery();
-});
+searchInput.addEventListener("input", renderGallery);
 
-// Открыть кастомизацию
+// --- Открытие кастомизации ---
 openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
-  setTimeout(() => openBtn.classList.add("hidden"), 400);
+  openFarm.style.opacity = "0";
 
-  if (window.innerWidth < 600) {
-    title.style.transform = "translateY(-80px)";
-  } else {
-    title.style.transform = "translateY(-180px)";
-  }
+  setTimeout(() => {
+    openBtn.classList.add("hidden");
+    openFarm.classList.add("hidden");
+  }, 400);
+
+  if(window.innerWidth < 600) title.style.transform = "translateY(-80px)";
+  else title.style.transform = "translateY(-180px)";
   title.style.fontSize = "22px";
 
   renderGallery();
@@ -94,13 +86,9 @@ openBtn.addEventListener("click", () => {
   backBtn.classList.remove("hidden");
   filterContainer.classList.remove("hidden");
 
-  // Автофокус на мобильных
-  if (window.innerWidth < 600) {
-    searchInput.focus();
-  }
+  if(window.innerWidth < 600) searchInput.focus();
 });
 
-// Назад
 backBtn.addEventListener("click", () => {
   gallery.classList.remove("show");
   setTimeout(() => gallery.classList.add("hidden"), 400);
@@ -112,17 +100,16 @@ backBtn.addEventListener("click", () => {
   title.style.fontSize = "28px";
 
   openBtn.classList.remove("hidden");
-  setTimeout(() => openBtn.style.opacity = "1", 100);
+  openFarm.classList.remove("hidden");
+  setTimeout(() => {
+    openBtn.style.opacity = "1";
+    openFarm.style.opacity = "1";
+  }, 100);
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// Кнопка фильтра
-filterBtn.addEventListener("click", () => {
-  filterOptions.classList.toggle("show");
-});
-
-// Клик по категории
+filterBtn.addEventListener("click", () => filterOptions.classList.toggle("show"));
 document.querySelectorAll(".filter-option").forEach(btn => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
@@ -131,17 +118,16 @@ document.querySelectorAll(".filter-option").forEach(btn => {
   });
 });
 
-// Закрыть оверлей
 closeBtn.addEventListener("click", () => {
   overlayImage.style.transform = "scale(1)";
   setTimeout(() => overlay.classList.add("hidden"), 300);
 });
 
-// Установить фон — переход в бот
 setBtn.addEventListener("click", () => {
   window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
 
+// --- Авто-Добыча ---
 const openFarm = document.getElementById("openFarm");
 const farmMenu = document.getElementById("farmMenu");
 const closeFarm = document.getElementById("closeFarm");
@@ -153,108 +139,72 @@ const steps = 10;
 let current = 1;
 let isDragging = false;
 
-// Генерируем шаги визуально (отметки под слайдер)
-for (let i = 1; i <= steps; i++) {
+for(let i=1;i<=steps;i++){
   const step = document.createElement("span");
   step.textContent = i;
-  if (i === current) step.classList.add("active");
+  if(i===current) step.classList.add("active");
   sliderSteps.appendChild(step);
 }
 
-// Функция обновления слайдера
-function setStep(val, animate = true) {
-  if (val < 1) val = 1;
-  if (val > steps) val = steps;
-
+function setStep(val, animate=true){
+  if(val<1) val=1;
+  if(val>steps) val=steps;
   current = val;
   farmValue.textContent = val;
-  const percent = (val / steps) * 100;
-
+  const percent = (val/steps)*100;
   sliderFill.style.transition = animate ? "width 0.2s ease" : "none";
   sliderFill.style.width = percent + "%";
-
-  [...sliderSteps.children].forEach((child, idx) => {
-    child.classList.toggle("active", idx + 1 === val);
+  [...sliderSteps.children].forEach((child, idx)=>{
+    child.classList.toggle("active", idx+1===val);
   });
 }
 
-// Получаем шаг по координате курсора на слайдере
-function getStepFromPointer(e) {
-  const track = sliderFill.parentElement; // используем весь трек
+function getStepFromPointer(e){
+  const track = sliderFill.parentElement;
   const rect = track.getBoundingClientRect();
   const x = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
   const relativeX = x - rect.left;
-  const stepWidth = rect.width / steps;
-  return Math.ceil(relativeX / stepWidth);
+  const stepWidth = rect.width/steps;
+  return Math.ceil(relativeX/stepWidth);
 }
 
-// Обновление слайдера при движении мыши/пальца
-function updateSlider(e) {
-  const step = getStepFromPointer(e);
-  setStep(step, false);
-}
+function updateSlider(e){ setStep(getStepFromPointer(e), false); }
 
-// Drag-to-move события на **трек**, а не на цифры
-sliderFill.parentElement.addEventListener("mousedown", e => {
-  isDragging = true;
-  updateSlider(e);
-});
-sliderFill.parentElement.addEventListener("touchstart", e => {
-  isDragging = true;
-  updateSlider(e);
-}, {passive: true});
+sliderFill.parentElement.addEventListener("mousedown", e=>{ isDragging=true; updateSlider(e); });
+sliderFill.parentElement.addEventListener("touchstart", e=>{ isDragging=true; updateSlider(e); }, {passive:true});
+window.addEventListener("mousemove", e=>{ if(isDragging) updateSlider(e); });
+window.addEventListener("touchmove", e=>{ if(isDragging) updateSlider(e); }, {passive:true});
+window.addEventListener("mouseup", ()=>{ if(isDragging){ isDragging=false; setStep(current,true); }});
+window.addEventListener("touchend", ()=>{ if(isDragging){ isDragging=false; setStep(current,true); }});
 
-window.addEventListener("mousemove", e => {
-  if (isDragging) updateSlider(e);
-});
-window.addEventListener("touchmove", e => {
-  if (isDragging) updateSlider(e);
-}, {passive: true});
+setStep(current,true);
 
-window.addEventListener("mouseup", () => {
-  if (isDragging) { 
-    isDragging = false; 
-    setStep(current, true); 
-  }
-});
-window.addEventListener("touchend", () => {
-  if (isDragging) { 
-    isDragging = false; 
-    setStep(current, true); 
-  }
-});
+// --- Анимация меню Авто-Добычи ---
+openFarm.addEventListener("click", ()=>{
+  openBtn.classList.add("fade-out");
+  openFarm.classList.add("fade-out");
+  setTimeout(()=>{
+    openBtn.classList.add("hidden");
+    openFarm.classList.add("hidden");
+  },400);
 
-// Инициализация
-setStep(current, true);
-
-// === Меню автодобычи ===
-openFarm.addEventListener("click", () => {
-  farmMenu.classList.remove("hidden");
-});
-
-closeFarm.addEventListener("click", () => {
-  farmMenu.classList.add("hidden");
-});
-
-// === Интеграция с меню фонов ===
-openBtn.addEventListener("click", () => {
-  openFarm.classList.add("hidden");
-});
-
-backBtn.addEventListener("click", () => {
-  openFarm.classList.remove("hidden");
-});
-// Анимация открытия/закрытия меню Авто-Добычи
-openFarm.addEventListener("click", () => {
-  farmMenu.classList.remove("hidden");
-  farmMenu.classList.remove("hide");
+  farmMenu.classList.remove("hidden","hide");
   farmMenu.classList.add("show");
 });
 
-closeFarm.addEventListener("click", () => {
+closeFarm.addEventListener("click", ()=>{
   farmMenu.classList.remove("show");
   farmMenu.classList.add("hide");
-  setTimeout(() => farmMenu.classList.add("hidden"), 400); // совпадает с transition
+
+  setTimeout(()=>{
+    farmMenu.classList.add("hidden");
+    openBtn.classList.remove("hidden","fade-out");
+    openFarm.classList.remove("hidden","fade-out");
+    openBtn.classList.add("fade-in");
+    openFarm.classList.add("fade-in");
+    setTimeout(()=>{
+      openBtn.classList.remove("fade-in");
+      openFarm.classList.remove("fade-in");
+    },400);
+  },400);
 });
-
-
