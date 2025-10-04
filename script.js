@@ -91,7 +91,10 @@ openBtn.addEventListener("click", () => {
 
 backBtn.addEventListener("click", () => {
   gallery.classList.remove("show");
-  setTimeout(() => gallery.classList.add("hidden"), 400);
+  setTimeout(() => {
+    gallery.classList.add("hidden");
+    gallery.innerHTML = ""; // очищаем карточки
+  }, 400);
 
   backBtn.classList.add("hidden");
   filterContainer.classList.add("hidden");
