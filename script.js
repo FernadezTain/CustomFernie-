@@ -153,14 +153,21 @@ const farmValue = document.getElementById("farmValue");
 function setSliderValue(val, animate = true) {
   farmValue.textContent = val;
   const percent = ((val - farmSlider.min) / (farmSlider.max - farmSlider.min)) * 100;
-  farmSlider.style.transition = animate ? "background-size 0.3s ease" : "none";
-  farmSlider.style.backgroundSize = percent + "% 100%";
+
+  // Активная часть (переливка) = percent%
+  // Пассивная часть (тонкая белая) = всегда 100%
+  farmSlider.style.backgroundSize = `${percent}% 100%, 100% 40%`;
+
+  if (animate) {
+    farmSlider.style.transition = "background-size 0.3s ease";
+  } else {
+    farmSlider.style.transition = "none";
+  }
 }
 
 // Во время движения мышкой/пальцем — обновляем без анимации
-farmSlider.addEventListener("input", () => {
-  setSliderValue(farmSlider.value, false);
-});
+
+farmSlider.addEventListener("input", () => setSliderValue(farmSlider.value, false));
 
 // Когда отпустили — снапим к ближайшему числу и анимируем
 farmSlider.addEventListener("change", () => {
