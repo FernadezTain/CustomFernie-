@@ -151,20 +151,31 @@ const sliderSteps = document.getElementById("sliderSteps");
 
 const steps = 10; // 1–10
 let current = 1;
+let isDragging = false;
 
-// генерируем шаги
+// Генерируем шаги (визуальные деления)
 for (let i = 1; i <= steps; i++) {
   const step = document.createElement("span");
   step.textContent = i;
   if (i === current) step.classList.add("active");
-  step.addEventListener("click", () => setStep(i));
   sliderSteps.appendChild(step);
 }
 
-function setStep(val) {
+// Обновляем состояние слайдера
+function setStep(val, animate = true) {
+  if (val < 1) val = 1;
+  if (val > steps) val = steps;
+
   current = val;
   farmValue.textContent = val;
   const percent = (val / steps) * 100;
+
+  if (animate) {
+    sliderFill.style.transition = "width 0.2s ease";
+  } else {
+    sliderFill.style.transition = "none";
+  }
+
   sliderFill.style.width = percent + "%";
 
   [...sliderSteps.children].forEach((child, idx) => {
@@ -172,8 +183,32 @@ function setStep(val) {
   });
 }
 
-// начальное значение
-setStep(current);
+// Функция для расчёта шага по позиции мыши/пальца
+function getStepFromPointer(e) {
+  const rect = sliderSteps.getBoundingClientRect();
+  const x = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+  const relativeX = x - rect.left;
+  const stepWidth = rect.width / steps;
+  return Math.ceil(relativeX / stepWidth);
+}
+
+// === События для плавного движения слайдера ===
+sliderSteps.addEventListener("mousedown", e => { isDragging = true; updateSlider(e); });
+sliderSteps.addEventListener("touchstart", e => { isDragging = true; updateSlider(e); }, {passive: true});
+
+window.addEventListener("mousemove", e => { if (isDragging) updateSlider(e); });
+window.addEventListener("touchmove", e => { if (isDragging) updateSlider(e); }, {passive: true});
+
+window.addEventListener("mouseup", () => { if (isDragging) { isDragging = false; setStep(current, true); } });
+window.addEventListener("touchend", () => { if (isDragging) { isDragging = false; setStep(current, true); } });
+
+function updateSlider(e) {
+  const step = getStepFromPointer(e);
+  setStep(step, false);
+}
+
+// Инициализация
+setStep(current, true);
 
 // === Меню автодобычи ===
 openFarm.addEventListener("click", () => {
@@ -192,4 +227,5 @@ openBtn.addEventListener("click", () => {
 backBtn.addEventListener("click", () => {
   openFarm.classList.remove("hidden");
 });
+
 
