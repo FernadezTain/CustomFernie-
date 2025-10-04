@@ -141,3 +141,39 @@ closeBtn.addEventListener("click", () => {
 setBtn.addEventListener("click", () => {
   window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
 });
+
+const openFarm = document.getElementById("openFarm");
+const farmMenu = document.getElementById("farmMenu");
+const closeFarm = document.getElementById("closeFarm");
+const farmSlider = document.getElementById("farmSlider");
+const farmValue = document.getElementById("farmValue");
+
+// Обновление градиента ползунка
+function updateSlider() {
+  const val = farmSlider.value;
+  farmValue.textContent = val;
+  const percent = ((val - farmSlider.min) / (farmSlider.max - farmSlider.min)) * 100;
+  farmSlider.style.backgroundSize = percent + "% 100%";
+}
+farmSlider.addEventListener("input", updateSlider);
+updateSlider();
+
+// Открытие меню автодобычи
+openFarm.addEventListener("click", () => {
+  farmMenu.classList.remove("hidden");
+});
+
+// Закрытие меню
+closeFarm.addEventListener("click", () => {
+  farmMenu.classList.add("hidden");
+});
+
+// === Интеграция с меню фонов ===
+openBtn.addEventListener("click", () => {
+  openFarm.classList.add("hidden"); // спрятать кнопку автодобычи при открытии фонов
+});
+
+backBtn.addEventListener("click", () => {
+  openFarm.classList.remove("hidden"); // вернуть кнопку после выхода
+});
+
