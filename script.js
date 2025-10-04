@@ -244,5 +244,17 @@ openBtn.addEventListener("click", () => {
 backBtn.addEventListener("click", () => {
   openFarm.classList.remove("hidden");
 });
+// Анимация открытия/закрытия меню Авто-Добычи
+openFarm.addEventListener("click", () => {
+  farmMenu.classList.remove("hidden");
+  farmMenu.classList.remove("hide");
+  farmMenu.classList.add("show");
+});
+
+closeFarm.addEventListener("click", () => {
+  farmMenu.classList.remove("show");
+  farmMenu.classList.add("hide");
+  setTimeout(() => farmMenu.classList.add("hidden"), 400); // совпадает с transition
+});
 
 
