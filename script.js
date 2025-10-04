@@ -149,11 +149,11 @@ const farmValue = document.getElementById("farmValue");
 const sliderFill = document.getElementById("sliderFill");
 const sliderSteps = document.getElementById("sliderSteps");
 
-const steps = 10; // диапазон 1–10
+const steps = 10;
 let current = 1;
 let isDragging = false;
 
-// Генерация шагов визуально (отметки под слайдер)
+// Генерируем шаги визуально (отметки под слайдер)
 for (let i = 1; i <= steps; i++) {
   const step = document.createElement("span");
   step.textContent = i;
@@ -178,49 +178,50 @@ function setStep(val, animate = true) {
   });
 }
 
-// Определяем шаг по позиции курсора на слайдере
+// Получаем шаг по координате курсора на слайдере
 function getStepFromPointer(e) {
-  const rect = sliderSteps.getBoundingClientRect();
+  const track = sliderFill.parentElement; // используем весь трек
+  const rect = track.getBoundingClientRect();
   const x = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
   const relativeX = x - rect.left;
   const stepWidth = rect.width / steps;
   return Math.ceil(relativeX / stepWidth);
 }
 
-// Обновление слайдера во время движения мыши/пальца
+// Обновление слайдера при движении мыши/пальца
 function updateSlider(e) {
   const step = getStepFromPointer(e);
   setStep(step, false);
 }
 
-// Drag-to-move события
-sliderSteps.addEventListener("mousedown", e => { 
-  isDragging = true; 
-  updateSlider(e); 
+// Drag-to-move события на **трек**, а не на цифры
+sliderFill.parentElement.addEventListener("mousedown", e => {
+  isDragging = true;
+  updateSlider(e);
 });
-sliderSteps.addEventListener("touchstart", e => { 
-  isDragging = true; 
-  updateSlider(e); 
+sliderFill.parentElement.addEventListener("touchstart", e => {
+  isDragging = true;
+  updateSlider(e);
 }, {passive: true});
 
-window.addEventListener("mousemove", e => { 
-  if (isDragging) updateSlider(e); 
+window.addEventListener("mousemove", e => {
+  if (isDragging) updateSlider(e);
 });
-window.addEventListener("touchmove", e => { 
-  if (isDragging) updateSlider(e); 
+window.addEventListener("touchmove", e => {
+  if (isDragging) updateSlider(e);
 }, {passive: true});
 
-window.addEventListener("mouseup", () => { 
+window.addEventListener("mouseup", () => {
   if (isDragging) { 
     isDragging = false; 
     setStep(current, true); 
-  } 
+  }
 });
-window.addEventListener("touchend", () => { 
+window.addEventListener("touchend", () => {
   if (isDragging) { 
     isDragging = false; 
     setStep(current, true); 
-  } 
+  }
 });
 
 // Инициализация
