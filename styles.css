@@ -307,76 +307,86 @@ footer a {
   color: #00a8ff;
   text-decoration: underline;
 }
-#farmSlider {
-  width: 80%;
-  height: 12px;
+
+/* Красивый блок */
+.farm-block {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Контейнер ползунка */
+.slider-container {
+  margin: 20px auto;
+  width: 90%;
+}
+
+/* Общая дорожка */
+.slider-track {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  background: #eee;
+  overflow: hidden;
+}
+
+/* Заполненная часть */
+.slider-fill {
+  height: 100%;
+  width: 10%; /* стартовое значение */
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00c6ff, #00ff88, #00c6ff);
+  background-size: 200% 100%;
+  animation: gradientMove 4s linear infinite;
+  transition: width 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* Белая тонкая линия поверх остатка */
+.slider-track::after {
+  content: "";
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: white;
+  z-index: 1;
+}
+
+/* Шаги */
+.slider-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.slider-steps span {
+  cursor: pointer;
+  padding: 2px 6px;
   border-radius: 6px;
-  outline: none;
-  appearance: none;
-  cursor: pointer;
-
-  /* сразу делаем "двойной фон":
-     1) переливка для активной части
-     2) белая тонкая линия для остатка */
-  background: 
-    linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff) no-repeat, /* активная часть */
-    linear-gradient(90deg, #ffffff, #ffffff) no-repeat;          /* пассивная часть */
-
-  background-size: 0% 100%, 100% 40%; /* по умолчанию активная часть = 0 */
-  background-position: left center, left center;
-  background-repeat: no-repeat;
-
-  border-radius: 6px;
-  transition: background-size 0.3s ease;
+  transition: background 0.2s;
 }
 
-/* Дорожка (делаем прозрачной, фон управляем сами) */
-#farmSlider::-webkit-slider-runnable-track {
-  height: 12px;
-  background: transparent;
+.slider-steps span.active {
+  background: #00c6ff;
+  color: white;
 }
 
-#farmSlider::-moz-range-track {
-  height: 12px;
-  background: transparent;
+/* Анимация перелива */
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Бегунок */
-#farmSlider::-webkit-slider-thumb {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #00a8ff;
-  border: none;
-  cursor: pointer;
-  margin-top: -4px;
-  box-shadow: 0 0 8px rgba(0,168,255,0.6);
-  transition: transform 0.2s ease;
-}
-
-#farmSlider:active::-webkit-slider-thumb {
-  transform: scale(1.2);
-}
-
-#farmSlider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #00a8ff;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(0,168,255,0.6);
-  transition: transform 0.2s ease;
-}
-
-#farmSlider:active::-moz-range-thumb {
-  transform: scale(1.2);
-}
-
-/* Переливающаяся анимация */
-@keyframes farmGradient {
-  0%   { background-position: 0% 50%, left center; }
-  50%  { background-position: 100% 50%, left center; }
-  100% { background-position: 0% 50%, left center; }
-}
