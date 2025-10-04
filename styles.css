@@ -308,6 +308,7 @@ footer a {
   text-decoration: underline;
 }
 /* Меню автодобычи */
+/* Общий контейнер меню */
 #farmMenu {
   margin-top: 20px;
   padding: 20px;
@@ -317,6 +318,7 @@ footer a {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+/* Базовый ползунок */
 #farmSlider {
   width: 80%;
   height: 12px;
@@ -326,6 +328,15 @@ footer a {
   background: #eee;
   overflow: hidden;
   cursor: pointer;
+
+  /* 🌈 переливающийся градиент */
+  background: linear-gradient(270deg, #00c6ff, #0072ff, #00c6ff);
+  background-size: 400% 100%;   /* шире, чтобы был запас для движения */
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  transition: background-size 0.3s ease;
+
+  animation: farmGradient 6s linear infinite; /* анимация */
 }
 
 /* Дорожка */
@@ -334,7 +345,7 @@ footer a {
   background: transparent;
 }
 
-/* Бегунок */
+/* Бегунок (WebKit) */
 #farmSlider::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
@@ -345,8 +356,14 @@ footer a {
   cursor: pointer;
   margin-top: -4px;
   box-shadow: 0 0 8px rgba(0,168,255,0.6);
+  transition: transform 0.2s ease;
 }
 
+#farmSlider:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+/* Бегунок (Firefox) */
 #farmSlider::-moz-range-thumb {
   width: 20px;
   height: 20px;
@@ -355,11 +372,16 @@ footer a {
   border: none;
   cursor: pointer;
   box-shadow: 0 0 8px rgba(0,168,255,0.6);
+  transition: transform 0.2s ease;
 }
 
-/* Заливка активной части */
-#farmSlider {
-  background: linear-gradient(90deg, #00c6ff, #0072ff) no-repeat;
-  background-size: 0% 100%;
-  transition: background-size 0.3s ease;
+#farmSlider:active::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+/* 🌈 Ключевые кадры перелива */
+@keyframes farmGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
