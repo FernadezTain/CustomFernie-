@@ -1,4 +1,3 @@
-/* ------------------- */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
@@ -21,126 +20,83 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* ------------------- */
-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
-  background-size: 400% 400%;
-  animation: gradientBtn 8s ease infinite;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.3s, opacity 0.3s;
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 1000px;
+  transition: all 0.6s ease;
 }
 
-@keyframes gradientBtn {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(0, 168, 255, 0.7);
-}
-
-.hidden { display: none; }
-
-/* ------------------- */
-/* Оверлей */
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-#overlay.hidden { display: none; }
-
-#overlay img {
-  max-width: 90%;
-  max-height: 70%;
-  border-radius: 12px;
-}
-
-/* ------------------- */
-/* Кнопки оверлея в стиле жидкого стекла */
-#overlayButtons {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.overlay-btn {
-  position: relative;
+/* ----------------------- */
+/* Стиль кнопок "жидкое стекло" */
+button.glass-btn {
   padding: 12px 28px;
   font-size: 16px;
-  border-radius: 14px;
   border: none;
-  cursor: pointer;
-  color: white;
-  font-weight: 600;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.overlay-btn::before {
+button.glass-btn::before {
   content: '';
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(46,204,113,0.5), rgba(255,255,255,0.3));
-  transform: rotate(0deg);
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  background: linear-gradient(60deg, #00c6ff, #00ff88, #00c6ff, #00ff88);
+  background-size: 400% 400%;
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+  filter: blur(30px);
   z-index: 0;
-  filter: blur(15px);
-  opacity: 0;
+  animation: gradientBtnGlass 6s ease infinite;
 }
 
-.overlay-btn:hover::before {
-  opacity: 1;
-  transform: rotate(45deg);
+button.glass-btn span {
+  position: relative;
+  z-index: 1;
 }
 
-.overlay-btn span { position: relative; z-index: 1; }
+button.glass-btn:hover::before {
+  opacity: 0.6;
+}
 
-.overlay-btn:hover {
+button.glass-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(46, 204, 113, 0.7), 0 0 15px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 198, 255, 0.6);
 }
 
-/* Разные цвета кнопок */
-#setBtn.overlay-btn {
-  color: #fff;
+/* Зеленая кнопка "Установить" */
+button#setBtn.glass-btn::before {
+  background: linear-gradient(60deg, #2ecc71, #27ae60, #2ecc71, #27ae60);
 }
 
-#closeBtn.overlay-btn {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.45);
+button#setBtn.glass-btn:hover {
+  box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
 }
 
-/* ------------------- */
-/* Остальной твой CSS оставляем без изменений (галерея, карточки, фильтры, farm-block, info-block, и т.д.) */
-/* ... */
+/* Красная кнопка "Вернуть" */
+button#returnBtn.glass-btn::before {
+  background: linear-gradient(60deg, #e74c3c, #c0392b, #e74c3c, #c0392b);
+}
+
+button#returnBtn.glass-btn:hover {
+  box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+}
+
+/* ----------------------- */
+/* Анимация градиента кнопки */
+@keyframes gradientBtnGlass {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
