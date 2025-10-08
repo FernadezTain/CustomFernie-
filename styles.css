@@ -215,7 +215,7 @@ button:hover {
   transform: scale(1.08);
   box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
 }
-#returnBtn {
+#closeBtn {
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 12px;
@@ -230,7 +230,7 @@ button:hover {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-#returnBtn::before {
+#closeBtn::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -245,19 +245,20 @@ button:hover {
   animation: gradientReturnGlass 6s ease infinite;
 }
 
-#returnBtn span {
+#closeBtn span {
   position: relative;
   z-index: 1;
 }
 
-#returnBtn:hover::before {
+#closeBtn:hover::before {
   opacity: 0.6;
 }
 
-#returnBtn:hover {
+#closeBtn:hover {
   transform: scale(1.08);
   box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
 }
+
 
 /* Анимации градиентов */
 @keyframes gradientSetGlass {
