@@ -37,6 +37,7 @@ h1 {
 }
 
 /* ===================== Кнопки с эффектом стекла ===================== */
+/* Все кнопки стекло (все видны) */
 button, .filter-option {
   position: relative;
   overflow: hidden;
@@ -50,7 +51,11 @@ button, .filter-option {
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   cursor: pointer;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  display: none; /* Скрываем по умолчанию, чтобы не было на главной */
+}
+
+/* Скрываем только кнопки, которые не нужны на главной */
+.hidden-on-main {
+  display: none;
 }
 
 button span, .filter-option span {
