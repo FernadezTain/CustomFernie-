@@ -294,20 +294,20 @@ button:hover::before {
     box-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
 }
 
+/* === Исправленный и улучшенный стиль меню фильтра === */
 #filterOptions {
     display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(5, auto);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
     position: absolute;
     top: 110%;
     left: 50%;
     transform: translateX(-50%) scale(0.95);
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    padding: 10px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px;
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     z-index: 500;
     opacity: 0;
@@ -323,21 +323,38 @@ button:hover::before {
     transform: translateX(-50%) scale(1);
 }
 
+/* Кнопки фильтров */
 .filter-option {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
     border-radius: 8px;
     padding: 8px 15px;
     cursor: pointer;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.25);
-    backdrop-filter: blur(8px) saturate(180%);
-    transition: transform 0.2s, box-shadow 0.2s;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    transition: transform 0.2s, box-shadow 0.3s;
+    white-space: nowrap;
 }
 
 .filter-option:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
+
+/* Адаптивность для телефонов */
+@media (max-width: 600px) {
+    #filterOptions {
+        width: 90%;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        position: static;
+        transform: none;
+        left: 0;
+        top: 0;
+        margin: 10px auto;
+    }
+}
+
 
 /* Ползунок */
 .slider-container {
