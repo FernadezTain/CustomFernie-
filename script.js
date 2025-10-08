@@ -1,4 +1,5 @@
 const backgrounds = [
+  // Бесплатные фоны
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard"] },
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: ["standard"] },
   { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: ["standard"] },
@@ -12,6 +13,11 @@ const backgrounds = [
   { file: "profile_anime1.png", name: "Светлая мечта", arg: "profile_anime1", category: ["standard", "anime"] },
   { file: "profile_anime2.png", name: "В обьятиях неба", arg: "profile_anime2", category: ["standard", "anime"] },
   { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture"] },
+
+  // Платные фоны
+  { file: "lizka_1.png", name: "lizka - 1", arg: "lizka_1", price: 17000, category: ["custom"] },
+  { file: "lizka_2.png", name: "lizka - 2", arg: "lizka_2", price: 18000, category: ["custom"] },
+  { file: "lizka_3.png", name: "lizka - 3", arg: "lizka_3", price: 20000, category: ["custom"] },
 ];
 
 const openBtn = document.getElementById("openBtn");
@@ -21,6 +27,7 @@ const title = document.getElementById("title");
 
 const overlay = document.getElementById("overlay");
 const overlayImage = document.getElementById("overlayImage");
+const overlayInfo = document.getElementById("overlayInfo");
 const setBtn = document.getElementById("setBtn");
 const closeBtn = document.getElementById("closeBtn");
 
@@ -36,12 +43,12 @@ let currentCategory = "all";
 function renderGallery() {
   gallery.innerHTML = "";
   const searchText = searchInput.value.toLowerCase().trim();
-  const filtered = backgrounds.filter(bg => 
+  const filtered = backgrounds.filter(bg =>
     (currentCategory === "all" || bg.category.includes(currentCategory)) &&
     bg.name.toLowerCase().includes(searchText)
   );
 
-  if(filtered.length === 0) {
+  if (filtered.length === 0) {
     const msg = document.createElement("p");
     msg.textContent = "Ничего не найдено :(";
     msg.className = "no-results";
@@ -62,6 +69,20 @@ function renderGallery() {
       overlayImage.src = bg.file;
       overlayImage.style.transform = "scale(1)";
       overlay.classList.remove("hidden");
+
+      // --- Инфо-блок ---
+      if ("price" in bg && bg.price > 0) {
+        overlayInfo.innerHTML = `
+          <h3>${bg.name}</h3>
+          <hr>
+          <p><b>💰 Цена:</b> ${bg.price.toLocaleString("ru-RU")} 🌱</p>
+          <p><b>💳 Способ оплаты:</b> Семена</p>
+        `;
+      } else {
+        overlayInfo.innerHTML = `<h3>${bg.name}</h3>`;
+      }
+      overlayInfo.classList.remove("hidden");
+      setTimeout(() => overlayInfo.classList.add("show"), 50);
     });
   });
 }
@@ -71,10 +92,9 @@ searchInput.addEventListener("input", renderGallery);
 // --- Открытие кастомизации ---
 openBtn.addEventListener("click", () => {
   openBtn.style.opacity = "0";
-
   setTimeout(() => openBtn.classList.add("hidden"), 400);
 
-  if(window.innerWidth < 600) title.style.transform = "translateY(-80px)";
+  if (window.innerWidth < 600) title.style.transform = "translateY(-80px)";
   else title.style.transform = "translateY(-180px)";
   title.style.fontSize = "22px";
 
@@ -85,7 +105,7 @@ openBtn.addEventListener("click", () => {
   backBtn.classList.remove("hidden");
   filterContainer.classList.remove("hidden");
 
-  if(window.innerWidth < 600) searchInput.focus();
+  if (window.innerWidth < 600) searchInput.focus();
 });
 
 backBtn.addEventListener("click", () => {
@@ -116,11 +136,20 @@ document.querySelectorAll(".filter-option").forEach(btn => {
   });
 });
 
+// --- Закрытие оверлея ---
 closeBtn.addEventListener("click", () => {
   overlayImage.style.transform = "scale(1)";
-  setTimeout(() => overlay.classList.add("hidden"), 300);
+  overlayInfo.classList.remove("show");
+  setTimeout(() => {
+    overlay.classList.add("hidden");
+    overlayInfo.classList.add("hidden");
+    overlayInfo.innerHTML = "";
+  }, 300);
 });
 
+// --- Установка фона ---
 setBtn.addEventListener("click", () => {
-  window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
+  if (selectedArg) {
+    window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
+  }
 });
