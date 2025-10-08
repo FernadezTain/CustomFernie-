@@ -294,26 +294,31 @@ button:hover::before {
     box-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
 }
 
-/* === Исправленный и улучшенный стиль меню фильтра === */
+/* === Адаптивное меню фильтра с эффектом стекла === */
 #filterOptions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    justify-items: center;
-    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
     position: absolute;
     top: 110%;
     left: 50%;
     transform: translateX(-50%) scale(0.95);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
     padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     z-index: 500;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    width: auto;
+    min-width: 250px;
+    max-width: 90vw; /* чтобы не вылезало за экран */
 }
 
 #filterOptions.show {
@@ -323,10 +328,10 @@ button:hover::before {
     transform: translateX(-50%) scale(1);
 }
 
-/* Кнопки фильтров */
+/* Кнопки категорий */
 .filter-option {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     border-radius: 8px;
     padding: 8px 15px;
@@ -334,24 +339,62 @@ button:hover::before {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     transition: transform 0.2s, box-shadow 0.3s;
-    white-space: nowrap;
+    white-space: nowrap; /* чтобы текст не переносился */
+    font-size: 14px;
 }
 
 .filter-option:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+/* Поле поиска */
+#searchInput {
+    width: 70%;
+    max-width: 260px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#searchInput:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* Адаптивность для телефонов */
 @media (max-width: 600px) {
     #filterOptions {
+        flex-direction: column;
+        align-items: center;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 95vw;
+        padding: 10px;
+    }
+
+    .filter-option {
         width: 90%;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        position: static;
-        transform: none;
-        left: 0;
-        top: 0;
-        margin: 10px auto;
+        text-align: center;
+    }
+
+    #searchInput {
+        width: 90%;
+        max-width: none;
     }
 }
 
