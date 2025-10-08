@@ -1,3 +1,4 @@
+/* ===================== Общие настройки ===================== */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
@@ -35,7 +36,7 @@ h1 {
   position: relative;
 }
 
-/* 🌟 Все кнопки с эффектом жидкого стекла */
+/* ===================== Кнопки с эффектом стекла ===================== */
 button, .filter-option {
   position: relative;
   overflow: hidden;
@@ -49,15 +50,14 @@ button, .filter-option {
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   cursor: pointer;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: none; /* Скрываем по умолчанию, чтобы не было на главной */
 }
 
-/* Обёртка текста для эффекта слоя */
 button span, .filter-option span {
   position: relative;
   z-index: 1;
 }
 
-/* Псевдоэлемент для градиента */
 button::before, #setBtn::before, #closeBtn::before, #returnBtn::before, #filterBtn::before, .filter-option::before {
   content: '';
   position: absolute;
@@ -74,55 +74,36 @@ button::before, #setBtn::before, #closeBtn::before, #returnBtn::before, #filterB
   animation: gradientGlass 6s ease infinite;
 }
 
-/* Индивидуальные градиенты */
-#setBtn::before {
-  background: linear-gradient(60deg, #2ecc71, #27ae60, #2ecc71, #27ae60);
-}
-#closeBtn::before,
-#returnBtn::before {
-  background: linear-gradient(60deg, #e74c3c, #c0392b, #e74c3c, #c0392b);
-}
-#filterBtn::before {
-  background: linear-gradient(60deg, #FFD700, #FFC107, #FFEB3B, #FFCA28);
-}
-.filter-option::before {
-  background: linear-gradient(60deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
-}
+#setBtn::before { background: linear-gradient(60deg, #2ecc71, #27ae60, #2ecc71, #27ae60); }
+#closeBtn::before, #returnBtn::before { background: linear-gradient(60deg, #e74c3c, #c0392b, #e74c3c, #c0392b); }
+#filterBtn::before { background: linear-gradient(60deg, #FFD700, #FFC107, #FFEB3B, #FFCA28); }
+.filter-option::before { background: linear-gradient(60deg, #00a8ff, #0097e6, #74b9ff, #0984e3); }
 
-/* Анимация градиента */
 @keyframes gradientGlass {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Ховер эффект */
 button:hover, .filter-option:hover {
   transform: scale(1.08);
   box-shadow: 0 8px 25px rgba(255,255,255,0.4);
 }
+button:hover::before, .filter-option:hover::before { opacity: 0.6; }
 
-button:hover::before, .filter-option:hover::before {
-  opacity: 0.6;
-}
-
-/* Галерея */
+/* ===================== Галерея ===================== */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.6s ease;
   margin-bottom: 20px;
 }
+.gallery.show { opacity: 1; transform: translateY(0); }
 
-.gallery.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Карточки */
+/* ===================== Карточки ===================== */
 .card {
   background: white;
   border-radius: 12px;
@@ -132,7 +113,6 @@ button:hover::before, .filter-option:hover::before {
   transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
   position: relative;
 }
-
 .card::before {
   content: '';
   position: absolute;
@@ -147,7 +127,6 @@ button:hover::before, .filter-option:hover::before {
   filter: blur(20px);
   z-index: 0;
 }
-
 .card img {
   width: 100%;
   height: 150px;
@@ -158,75 +137,44 @@ button:hover::before, .filter-option:hover::before {
   z-index: 1;
   transition: transform 0.4s ease;
 }
+.card:hover::before { opacity: 1; transform: rotate(5deg) scale(1.05); }
+.card:hover img { transform: scale(1.08); }
+.card:hover { box-shadow: 0 10px 30px rgba(155,89,182,0.5), 0 0 20px rgba(255,255,255,0.4); }
 
-.card:hover::before {
-  opacity: 1;
-  transform: rotate(5deg) scale(1.05);
+/* ===================== Информационный блок ===================== */
+.info-block {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 16px;
+  padding: 20px 24px;
+  text-align: left;
+  max-width: 400px;
+  width: 90%;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0;
+  transform: translateY(10px);
 }
+.info-block.show { opacity: 1; transform: translateY(0); }
+.info-block h3 { margin: 0 0 10px 0; font-size: 20px; text-align: center; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.info-block p { margin: 5px 0; font-size: 16px; line-height: 1.4; color: rgba(255,255,255,0.92); }
+.info-block hr { border: none; border-top: 1px solid rgba(255,255,255,0.25); margin: 10px 0; }
+.info-block:hover { box-shadow: 0 10px 40px rgba(255,255,255,0.3); transform: scale(1.02); }
 
-.card:hover img {
-  transform: scale(1.08);
-}
-
-.card:hover {
-  box-shadow: 0 10px 30px rgba(155,89,182,0.5), 0 0 20px rgba(255,255,255,0.4);
-}
-
-/* Оверлей */
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-#overlay.hidden {
-  display: none;
-}
-
-#overlay img {
-  max-width: 90%;
-  max-height: 70%;
-  border-radius: 12px;
-}
-
-#overlayButtons {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-}
-
-/* Фильтры */
-.filter-container {
-  margin: 15px auto 20px;
-  text-align: center;
-  position: relative;
-}
-
+/* ===================== Фильтры ===================== */
+.filter-container { margin: 15px auto 20px; text-align: center; position: relative; }
 #filterOptions {
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: repeat(5, auto);
   gap: 8px;
-
   position: absolute;
   top: 110%;
   left: 50%;
   transform: translateX(-50%) scale(0.95);
-  
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
@@ -234,21 +182,14 @@ button:hover::before, .filter-option:hover::before {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   z-index: 500;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+#filterOptions.show { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) scale(1); }
 
-#filterOptions.show {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateX(-50%) scale(1);
-}
-
-/* Поиск */
+/* ===================== Поиск ===================== */
 #searchInput {
   width: 90%;
   padding: 8px 12px;
@@ -258,7 +199,7 @@ button:hover::before, .filter-option:hover::before {
   font-size: 14px;
 }
 
-/* Футер */
+/* ===================== Футер ===================== */
 footer {
   width: 100%;
   text-align: center;
@@ -269,8 +210,14 @@ footer {
   background: transparent;
   margin-top: auto;
 }
+footer a { color: #00a8ff; text-decoration: underline; }
 
-footer a {
-  color: #00a8ff;
-  text-decoration: underline;
+/* ===================== Адаптивность ===================== */
+@media (max-width: 600px) {
+  h1 { font-size: 22px; }
+  .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .card img { height: 120px; }
+  .info-block { padding: 15px 16px; font-size: 14px; max-width: 95%; }
+  button, .filter-option { padding: 8px 14px; font-size: 14px; }
+  #filterOptions { top: 100%; transform: translateX(-50%) scale(0.95); }
 }
