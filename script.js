@@ -1,21 +1,21 @@
 const backgrounds = [
   // Бесплатные фоны
-  { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard"] },
-  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: ["standard"] },
-  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: ["standard"] },
-  { file: "profile_weather.png", name: "Облачка", arg: "weather", category: ["standard"] },
-  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: ["custom", "nature"] },
-  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: ["custom"] },
-  { file: "Danivak50_2.png", name: "Danivak50 - 2", arg: "Danivak50_2", category: ["custom", "animals"] },
-  { file: "Danivak50_3.png", name: "Danivak50 - 3", arg: "Danivak50_3", category: ["custom", "animals"] },
-  { file: "Danivak50_4.png", name: "Danivak50 - 4", arg: "Danivak50_4", category: ["custom", "animals"] },
-  { file: "Danivak50_5.png", name: "Danivak50 - 5", arg: "Danivak50_5", category: ["custom", "animals"] },
-  { file: "profile_anime1.png", name: "Светлая мечта", arg: "profile_anime1", category: ["standard", "anime"] },
-  { file: "profile_anime2.png", name: "В обьятиях неба", arg: "profile_anime2", category: ["standard", "anime"] },
-  { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture"] },
+  { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard", "free"] },
+  { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: ["standard", "free"] },
+  { file: "profile_banan.png", name: "Бананчики", arg: "banan", category: ["standard", "free"] },
+  { file: "profile_weather.png", name: "Облачка", arg: "weather", category: ["standard", "free"] },
+  { file: "IIIUHA3A_1.png", name: "IIIUHA3A - 1", arg: "IIIUHA3A_1", category: ["custom", "nature", "free"] },
+  { file: "Danivak50_1.png", name: "Danivak50 - 1", arg: "Danivak50_1", category: ["custom", "free"] },
+  { file: "Danivak50_2.png", name: "Danivak50 - 2", arg: "Danivak50_2", category: ["custom", "animals", "free"] },
+  { file: "Danivak50_3.png", name: "Danivak50 - 3", arg: "Danivak50_3", category: ["custom", "animals", "free"] },
+  { file: "Danivak50_4.png", name: "Danivak50 - 4", arg: "Danivak50_4", category: ["custom", "animals", "free"] },
+  { file: "Danivak50_5.png", name: "Danivak50 - 5", arg: "Danivak50_5", category: ["custom", "animals", "free"] },
+  { file: "profile_anime1.png", name: "Светлая мечта", arg: "profile_anime1", category: ["standard", "anime", "free"] },
+  { file: "profile_anime2.png", name: "В обьятиях неба", arg: "profile_anime2", category: ["standard", "anime", "free"] },
+  { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture", "free"] },
 
   // Платные фоны
-  { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard"] },
+  { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard", "paid"] },
 ];
 
 const openBtn = document.getElementById("openBtn");
