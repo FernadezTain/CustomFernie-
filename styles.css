@@ -99,11 +99,12 @@ button:hover::before {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(30px);
     transition: all 0.6s ease;
     margin-bottom: 20px;
 }
 
+/* Показываем галерею */
 .gallery.show {
     opacity: 1;
     transform: translateY(0);
@@ -116,13 +117,13 @@ button:hover::before {
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     cursor: pointer;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease, opacity 0.5s ease, transform 0.5s ease;
     position: relative;
     backdrop-filter: blur(10px) saturate(180%);
     
     /* Для анимации появления */
     opacity: 0;
     transform: translateY(30px);
+    transition: all 0.5s ease; /* здесь указываем, что появление плавное */
 }
 
 .card::before {
@@ -164,7 +165,7 @@ button:hover::before {
     box-shadow: 0 10px 30px rgba(155, 89, 182, 0.5), 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
-/* Появление карточек при показе галереи */
+/* Показываем все карточки одновременно */
 .gallery.show .card {
     opacity: 1;
     transform: translateY(0);
