@@ -15,7 +15,7 @@ const backgrounds = [
   { file: "profile_wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", category: ["custom", "architecture"] },
 
   // Платные фоны
-  { file: "lizka_1.png", name: "lizka - 1", arg: "Lizka", price: 17000, category: ["standard"] },
+  { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard"] },
 ];
 
 const openBtn = document.getElementById("openBtn");
