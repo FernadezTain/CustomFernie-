@@ -477,3 +477,40 @@ button.fade-in {
   color: #555;
   margin: 0;
 }
+/* Инфо-блок под картинкой */
+.info-block {
+  background: rgba(255, 255, 255, 0.95);
+  color: #2d3436;
+  border-radius: 14px;
+  padding: 18px 22px;
+  text-align: left;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.info-block.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-block h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+.info-block p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.info-block hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 8px 0;
+}
+
