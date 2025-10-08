@@ -415,7 +415,8 @@ footer a {
 }
 /* Поле поиска фонов */
 #searchInput {
-    width: 90%;
+    width: 70%; /* уже, чтобы не перекрывало кнопки */
+    max-width: 300px; /* ограничение по максимальной ширине */
     padding: 10px 15px;
     margin-bottom: 8px;
     border-radius: 12px;
