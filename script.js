@@ -16,8 +16,6 @@ const backgrounds = [
 
   // Платные фоны
   { file: "lizka_1.png", name: "lizka - 1", arg: "lizka_1", price: 17000, category: ["custom"] },
-  { file: "lizka_2.png", name: "lizka - 2", arg: "lizka_2", price: 18000, category: ["custom"] },
-  { file: "lizka_3.png", name: "lizka - 3", arg: "lizka_3", price: 20000, category: ["custom"] },
 ];
 
 const openBtn = document.getElementById("openBtn");
