@@ -20,7 +20,7 @@ const backgrounds = [
   { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard", "paid"] },
   { file: "lizka_2.png", name: "Lizka - 2", arg: "lizka_2", price: 30000, category: ["standard", "paid"] },
   { file: "KO3AA_1.png", name: "KO3AA - 1", arg: "KO3AA_1", price: 10000, category: ["standard", "anime", "paid"] },
-  { file: "lizka_3.png", name: "Lizka - 3", arg: "lizka_3", price: 50000, category: ["standard", "paid"] },
+  { file: "lizka_3.png", name: "Lizka - 3", arg: "lizka_3", price: 50000, category: ["standard", "paid", "new"] },
   { file: "wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", price: 15000, category: ["standard", "anime", "paid", "new"] },
   { file: "profile_anime5.png", name: "Осколки тьмы", arg: "profile_anime5", category: ["standard", "anime", "paid", "new"] },
 ];
