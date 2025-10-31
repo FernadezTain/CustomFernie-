@@ -485,3 +485,56 @@ footer a {
 #filterOptions::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.6);
 }
+/* Стили для сообщения "Ничего не найдено" */
+.no-results {
+    font-size: 2em; /* Крупный текст */
+    color: #F0F0F0; /* Светлый цвет текста */
+    text-align: center; /* Центрируем текст */
+    margin: 50px auto; /* Отступы сверху и снизу, центрируем блок по горизонтали */
+    padding: 25px 40px; /* Внутренние отступы */
+    border-radius: 20px; /* Скругленные углы для эффекта стекла */
+    background: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон */
+    backdrop-filter: blur(15px) saturate(180%); /* Эффект жидкого стекла */
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25); /* Тонкая светлая рамка */
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); /* Объемная тень */
+    max-width: 400px; /* Ограничиваем ширину для лучшего вида */
+    display: inline-block; /* Позволяет margin: auto центрировать блок */
+    opacity: 0; /* Скрываем по умолчанию */
+    transform: translateY(20px); /* Немного опускаем для анимации */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Плавная анимация */
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Мягкая тень для текста */
+    line-height: 1.4; /* Увеличиваем межстрочный интервал */
+}
+
+/* Класс для показа сообщения */
+.no-results.show {
+    opacity: 1; /* Показываем */
+    transform: translateY(0); /* Поднимаем на место */
+}
+
+/* Дополнительные стили для анимации (необязательно, но улучшает эффект) */
+.no-results::before {
+    content: '';
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(0, 168, 255, 0.2), rgba(155, 89, 182, 0.2), rgba(255, 255, 255, 0.2));
+    opacity: 0;
+    filter: blur(15px);
+    z-index: -1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.no-results.show::before {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+.no-results:hover {
+    box-shadow: 0 10px 40px rgba(0, 168, 255, 0.5); /* Более яркая тень при наведении */
+    transform: translateY(-5px) scale(1.02); /* Легкий подъем и увеличение */
+}
