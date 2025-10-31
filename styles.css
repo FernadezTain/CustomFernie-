@@ -282,12 +282,17 @@ button:hover::before {
     transform: scale(1.02);
 }
 
+---
+
+## 🔍 Фильтры и Поиск (Исправлено)
+
+```css
 /* === Фильтры и Поиск === */
 .filter-container {
     margin: 15px auto 20px;
     text-align: center;
-    position: relative;
-    z-index: 1; /* поверх частиц */
+    position: relative; /* Оставляем relative, чтобы контейнер кнопки фильтра оставался в потоке */
+    z-index: 10; /* Немного повысим, чтобы кнопка фильтра была выше галереи */
 }
 
 #filterOptions {
@@ -305,7 +310,7 @@ button:hover::before {
     border-radius: 14px;
     padding: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    **z-index: 1000; /* ИСПРАВЛЕНИЕ: Гарантирует, что фильтр поверх галереи */**
+    **z-index: 1000; /* ГЛАВНОЕ ИСПРАВЛЕНИЕ: Гарантирует, что меню фильтра поверх галереи */**
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -315,6 +320,7 @@ button:hover::before {
     max-width: 90vw;
     max-height: 300px;
     overflow-y: auto; /* Вертикальная прокрутка */
+    align-items: center; /* Центрируем содержимое по горизонтали */
 }
 
 #filterOptions.show {
@@ -337,7 +343,7 @@ button:hover::before {
     transition: transform 0.2s, box-shadow 0.3s;
     white-space: nowrap;
     font-size: 14px;
-    **width: 100%; /* ИСПРАВЛЕНИЕ: Кнопки теперь занимают всю ширину и не накладываются */**
+    **width: 90%; /* ИСПРАВЛЕНИЕ: Занимает 90% ширины меню, чтобы избежать наложения и обеспечить отступы */**
     box-sizing: border-box;
 }
 
@@ -348,8 +354,8 @@ button:hover::before {
 
 /* Поле поиска */
 #searchInput {
-    width: 70%;
-    max-width: 300px;
+    **width: 90%; /* ИСПРАВЛЕНИЕ: Использует 90% ширины меню */**
+    max-width: none; /* Убираем лишнее ограничение */
     padding: 10px 15px;
     margin-bottom: 8px;
     border-radius: 12px;
@@ -362,6 +368,7 @@ button:hover::before {
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     transition: all 0.3s ease;
     text-align: center;
+    box-sizing: border-box; /* Важно для корректной ширины */
 }
 
 #searchInput::placeholder {
@@ -398,7 +405,7 @@ button:hover::before {
         padding: 10px;
     }
     .filter-option {
-        **width: 90%; /* Оставляем 90% для центровки на мобильных */**
+        width: 90%; 
         text-align: center;
     }
     #searchInput {
@@ -406,6 +413,7 @@ button:hover::before {
         max-width: none;
     }
 }
+/* Остальные стили без изменений */
 
 /* === Слайдер (Ползунок) === */
 .slider-container {
