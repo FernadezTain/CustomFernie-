@@ -288,6 +288,482 @@ button:hover::before {
     text-align: center;
     position: relative;
     z-index: 10;
+    width: max-content; /* Контейнер обертывает выпадающий список */
+    max-width: 90vw;
+}
+
+/* ИСПРАВЛЕНИЕ: Блок фильтров теперь использует CSS Columns для вертикального двухколоночного макета */
+#filterOptions {
+    /* Удаляем flex-related properties, используем block для column-count */
+    display: block; 
+    
+    /* NEW: Устанавливаем две колонки. Контент течет вниз, потом вправо. */
+    column-count: 2; 
+    column-gap: 15px; /* Расстояние между колонками */
+    
+    /* NEW/FIX: Устанавливаем ширину, чтобы колонки могли сформироваться */
+    width: auto;
+    min-width: 350px; /* Достаточно для двух колонок + gap */
+    max-width: 90vw;
+    
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    
+    /* Устанавливаем максимальную высоту для прокрутки */
+    max-height: 300px;
+    overflow-y: auto; 
+    
+    /* Позиционирование */
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    /* Убираем text-align: center, чтобы колонки занимали свое место */
+}
+
+/* Поле поиска */
+#searchInput {
+    /* NEW/FIX: Элемент занимает всю ширину, пересекая колонки */
+    column-span: all; 
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 12px; /* Увеличил отступ вниз */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.15);
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    font-size: 14px;
+    outline: none;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    transition: all 0.3s ease;
+    text-align: center;
+    box-sizing: border-box; 
+    max-width: none;
+}
+
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.8); /* ОСВЕТЛЕННЫЙ ПЛЕЙСХОЛДЕР */
+}
+
+#searchInput:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 12px rgba(0, 168, 255, 0.6), 0 0 20px rgba(74, 189, 255, 0.3);
+}
+
+/* Анимация плавного появления для поля поиска */
+@keyframes fadeInGlass {
+    0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+#filterOptions.show .filter-option, #filterOptions.show #searchInput {
+    animation: fadeInGlass 0.4s ease forwards;
+}
+
+/* Кнопки категорий */
+.filter-option {
+    /* NEW/FIX: Кнопки занимают всю ширину колонки и не разрываются */
+    display: block; 
+    width: 100%;
+    margin-bottom: 8px; /* Отступ между кнопками в столбце */
+    margin-top: 0; /* Убираем лишний отступ */
+    break-inside: avoid; /* Запрет разрыва кнопки между столбцами */
+    box-sizing: border-box;
+    
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    transition: transform 0.2s, box-shadow 0.3s;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.filter-option:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.filter-option.active {
+    background: rgba(0, 168, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 168, 255, 0.6);
+    border-color: #00a8ff;
+}
+
+
+/* === Адаптивность для телефонов === */
+@media (max-width: 600px) {
+    #overlay img {
+        max-width: 85%;
+        max-height: 55%;
+    }
+    .filter-container {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    #filterOptions {
+        /* На мобильных устройствах делаем одну колонку */
+        column-count: 1; 
+        min-width: auto;
+        max-width: 95vw;
+        padding: 10px;
+    }
+    
+    .filter-option {
+        width: 100%;
+    }
+    
+    #searchInput {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Футер */
+footer {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #C0C0C0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    line-height: 1.5;
+    padding: 15px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1; /* поверх частиц */
+}
+
+footer a {
+    color: #4dc3ff; /* Немного более светлый синий */
+    text-decoration: underline;
+}
+
+/* Кастомный скролл для Chrome/Edge/Safari */
+#filterOptions::-webkit-scrollbar {
+    width: 8px;
+}
+#filterOptions::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+#filterOptions::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+#filterOptions::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+/* === Общие стили и сброс === */
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background: #000000; /* черный фон */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ОСНОВНОЙ ТЕКСТ */
+}
+
+/* Анимация градиентного фона (если будет использован) */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Контейнер для частиц */
+#tsparticles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Контейнер */
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 1000px;
+    transition: none;
+    position: relative;
+    z-index: 1; /* поверх частиц */
+}
+
+/* Заголовок */
+h1 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    transition: transform 0.6s ease, font-size 0.6s ease;
+    position: relative;
+}
+
+/* === Стили кнопок с эффектом жидкого стекла === */
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    position: relative;
+    overflow: hidden;
+    margin: 5px; /* добавлен отступ для кнопок в оверлее */
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(270deg, #00a8ff, #0097e6, #74b9ff, #0984e3);
+    background-size: 400% 400%;
+    opacity: 0.3;
+    filter: blur(30px);
+    z-index: 0;
+    animation: gradientBtn 8s ease infinite;
+}
+
+button span {
+    position: relative;
+    z-index: 1;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 168, 255, 0.6);
+}
+
+button:hover::before {
+    opacity: 0.5;
+}
+
+@keyframes gradientBtn {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* === Галерея === */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* поверх частиц */
+}
+
+/* Показываем галерею */
+.gallery.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Карточки */
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(10px) saturate(180%);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s ease;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    border-radius: 14px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(155, 89, 182, 0.4), rgba(255, 255, 255, 0.5));
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    filter: blur(20px);
+    z-index: 0;
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+    transform: rotate(5deg) scale(1.05);
+}
+
+.card:hover img {
+    transform: scale(1.08);
+}
+
+.card:hover {
+    box-shadow: 0 10px 30px rgba(155, 89, 182, 0.5), 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Показываем все карточки одновременно */
+.gallery.show .card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* === Оверлей === */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+#overlay img {
+    max-width: 55%;
+    max-height: 45%;
+    border-radius: 14px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    object-fit: cover;
+}
+
+#overlay img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(255, 255, 255, 0.4);
+}
+
+#overlayButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Инфо-блок под картинкой */
+.info-block {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    padding: 20px 24px;
+    text-align: left;
+    max-width: 400px;
+    width: 90%;
+    color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.info-block.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.info-block h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.info-block p {
+    margin: 5px 0;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #E0E0E0; /* НЕМНОГО ОСВЕТЛЕННЫЙ ТЕКСТ */
+    white-space: pre-wrap;
+}
+
+.info-block p b {
+    color: #ffd700;
+}
+
+.info-block hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    margin: 10px 0;
+}
+
+.info-block:hover {
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+/* === Фильтры и Поиск === */
+.filter-container {
+    margin: 15px auto 20px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 /* ИСПРАВЛЕНИЕ: Блок фильтров теперь использует Flexbox для горизонтального расположения с переносом */
