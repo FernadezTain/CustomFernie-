@@ -290,10 +290,12 @@ button:hover::before {
     z-index: 10;
 }
 
+/* ИСПРАВЛЕНИЕ: Блок фильтров теперь использует Flexbox для горизонтального расположения с переносом */
 #filterOptions {
-    display: flex;
-    flex-direction: column; /* Элементы идут сверху вниз */
-    gap: 5px;
+    display: flex; /* Используем flex */
+    flex-wrap: wrap; /* Разрешаем перенос на новую строку */
+    justify-content: center; /* Центрируем кнопки внутри контейнера */
+    gap: 8px; /* Расстояние между элементами (горизонтальное и вертикальное) */
     position: absolute;
     top: 110%;
     left: 50%;
@@ -310,12 +312,17 @@ button:hover::before {
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    width: auto;
-    min-width: 250px;
-    max-width: 90vw;
+    
+    /* NEW/FIX: Растягиваем контейнер по ширине содержимого, но не более 95% экрана */
+    width: max-content; 
+    max-width: 95vw;
+    
+    /* Устанавливаем максимальную высоту для прокрутки */
     max-height: 300px;
-    overflow-y: auto; /* Вертикальная прокрутка */
-    align-items: center; /* Центрируем содержимое по горизонтали */
+    overflow-y: auto; 
+    
+    /* Убираем align-items: stretch для flex-wrap */
+    align-items: flex-start; 
 }
 
 #filterOptions.show {
@@ -327,6 +334,11 @@ button:hover::before {
 
 /* Кнопки категорий */
 .filter-option {
+    /* NEW/FIX: Кнопки берут ширину по контенту */
+    width: auto; 
+    /* NEW/FIX: Устанавливаем максимальную ширину для кнопок, чтобы они не были слишком большими */
+    max-width: 200px;
+    
     background: rgba(255, 255, 255, 0.18);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #F0F0F0; /* ОСВЕТЛЕННЫЙ ТЕКСТ */
@@ -336,14 +348,15 @@ button:hover::before {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     transition: transform 0.2s, box-shadow 0.3s;
-    white-space: nowrap;
+    white-space: nowrap; /* Не даем тексту кнопки переноситься */
     font-size: 14px;
-    width: 90%;
     box-sizing: border-box;
+    /* Убираем margin, чтобы gap 8px работал */
+    margin: 0; 
 }
 
 .filter-option:hover {
-    transform: scale(1.05);
+    transform: scale(1.03); 
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
@@ -355,10 +368,13 @@ button:hover::before {
 
 /* Поле поиска */
 #searchInput {
-    width: 90%;
+    /* NEW/FIX: Поле поиска занимает всю ширину родительского контейнера filterOptions */
+    width: 100%;
     max-width: none;
     padding: 10px 15px;
-    margin-bottom: 8px;
+    margin-bottom: 8px; /* Отступ вниз */
+    margin-top: 0; /* Убираем margin-top, чтобы gap 8px работал */
+    
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.15);
@@ -369,7 +385,7 @@ button:hover::before {
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     transition: all 0.3s ease;
     text-align: center;
-    box-sizing: border-box; /* Важно для корректной ширины */
+    box-sizing: border-box; 
 }
 
 #searchInput::placeholder {
@@ -401,16 +417,26 @@ button:hover::before {
     .filter-container {
         width: 100%;
     }
+    
+    /* NEW/FIX: На маленьких экранах центрируем блок и ограничиваем его ширину */
     #filterOptions {
         max-width: 95vw;
         padding: 10px;
+        /* Переключаем на center, чтобы весь блок центрировался */
+        justify-content: center; 
+        width: auto;
     }
+    
+    /* NEW/FIX: Кнопки на мобильном могут быть немного шире, но не 90% от viewport, 
+       лучше позволить им переноситься, как и на десктопе, но центрировать. */
     .filter-option {
-        width: 90%; 
+        /* Убираем width: 90% и позволяем им быть по контенту */
+        width: auto; 
         text-align: center;
     }
+    
     #searchInput {
-        width: 90%;
+        width: 100%;
         max-width: none;
     }
 }
