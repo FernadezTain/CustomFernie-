@@ -1,17 +1,17 @@
 body {
-  margin:0;
-  font-family:"Segoe UI",sans-serif;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  min-height:100vh;
-  background:linear-gradient(270deg,#74b9ff,#a29bfe,#00cec9,#fab1a0);
-  background-size:600% 600%;
-  animation:gradientBG 12s ease infinite;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:20px;
-  box-sizing:border-box;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #000000; /* черный фон */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px;
+  box-sizing: border-box;
+}
+izing:border-box;
 }
 @keyframes gradientBG {
   0% {
