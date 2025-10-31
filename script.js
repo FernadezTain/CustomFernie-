@@ -1,3 +1,4 @@
+// --- 1. Данные для Галереи ---
 const backgrounds = [
   // Бесплатные фоны
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard", "free"] },
@@ -15,7 +16,7 @@ const backgrounds = [
   { file: "profile_anime3.png", name: "Хранительница ночи", arg: "profile_anime3", category: ["standard", "anime", "free", "new"] },
   { file: "profile_anime4.png", name: "Секреты Фосада", arg: "profile_anime4", category: ["standard", "anime", "free", "new"] },
   { file: "profile_weather.png", name: "Облачка", arg: "weather", category: ["standard", "free"] },
-  
+    
   // Платные фоны
   { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard", "paid"] },
   { file: "lizka_2.png", name: "Lizka - 2", arg: "lizka_2", price: 30000, category: ["standard", "paid"] },
@@ -109,6 +110,9 @@ openBtn.addEventListener("click", () => {
 
   backBtn.classList.remove("hidden");
   filterContainer.classList.remove("hidden");
+  // Важно: убираем класс 'hidden' и с filterOptions, чтобы он мог показаться
+  filterOptions.classList.add("hidden"); 
+  filterOptions.classList.remove("show");
 
   if (window.innerWidth < 600) searchInput.focus();
 });
@@ -122,6 +126,7 @@ backBtn.addEventListener("click", () => {
 
   backBtn.classList.add("hidden");
   filterContainer.classList.add("hidden");
+  filterOptions.classList.add("hidden"); // Скрываем меню фильтров при возврате
 
   title.style.transform = "translateY(0)";
   title.style.fontSize = "28px";
@@ -132,10 +137,20 @@ backBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-filterBtn.addEventListener("click", () => filterOptions.classList.toggle("show"));
+// --- ИСПРАВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ ФИЛЬТРА ---
+filterBtn.addEventListener("click", () => {
+    // Переключаем класс hidden, чтобы элемент стал видимым для анимации (opacity/transform)
+    filterOptions.classList.toggle("hidden");
+    // Переключаем класс show для анимации opacity/transform
+    filterOptions.classList.toggle("show", !filterOptions.classList.contains("hidden"));
+});
+// ------------------------------------------------
+
 document.querySelectorAll(".filter-option").forEach(btn => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
+    // При выборе фильтра всегда скрываем меню
+    filterOptions.classList.add("hidden"); 
     filterOptions.classList.remove("show");
     renderGallery();
   });
@@ -158,8 +173,10 @@ setBtn.addEventListener("click", () => {
     window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
   }
 });
-// Инициализация частиц
+
+// --- Инициализация частиц ---
 tsParticles.load("tsparticles", {
+  // ... настройки частиц
   fpsLimit: 60,
   particles: {
     number: { value: 50, density: { enable: true, area: 800 } },
@@ -175,4 +192,9 @@ tsParticles.load("tsparticles", {
     modes: { repulse: { distance: 100 }, push: { quantity: 4 } }
   },
   detectRetina: true
+});
+
+// --- Запуск галереи при загрузке (по желанию, если галерея должна быть видна сразу) ---
+document.addEventListener('DOMContentLoaded', () => {
+    // renderGallery(); 
 });
