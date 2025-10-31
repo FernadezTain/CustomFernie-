@@ -104,6 +104,13 @@ button:hover::before {
     100% { background-position: 0% 50%; }
 }
 
+/* NEW: Анимация перелива текста "Ничего не найдено" */
+@keyframes textShimmer {
+    to {
+        background-position: -200% center; /* Сдвигаем градиент влево для эффекта переливания */
+    }
+}
+
 .hidden {
     display: none !important;
 }
@@ -469,42 +476,43 @@ footer a {
     text-decoration: underline;
 }
 
-/* Кастомный скролл для Chrome/Edge/Safari */
-#filterOptions::-webkit-scrollbar {
-    width: 8px;
-}
-#filterOptions::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-#filterOptions::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-    transition: background 0.3s;
-}
-#filterOptions::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.6);
-}
-/* Стили для сообщения "Ничего не найдено" */
+/* === Сообщение "Ничего не найдено" === */
 .no-results {
     font-size: 2em; /* Крупный текст */
-    color: #F0F0F0; /* Светлый цвет текста */
-    text-align: center; /* Центрируем текст */
-    margin: 50px auto; /* Отступы сверху и снизу, центрируем блок по горизонтали */
-    padding: 25px 40px; /* Внутренние отступы */
-    border-radius: 20px; /* Скругленные углы для эффекта стекла */
-    background: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон */
-    backdrop-filter: blur(15px) saturate(180%); /* Эффект жидкого стекла */
+    /* УБРАНО: color: #F0F0F0; - Цвет теперь управляется градиентом */
+    text-align: center; 
+    
+    /* ИСПРАВЛЕНИЕ ЦЕНТРИРОВАНИЯ (П. 2) */
+    margin: 50px auto; /* Центрирует блок */
+    display: block; /* Важно для работы margin: auto */
+    max-width: max-content; /* Ширина по содержимому */
+    
+    padding: 25px 40px; 
+    border-radius: 20px; 
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px) saturate(180%); 
     -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.25); /* Тонкая светлая рамка */
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); /* Объемная тень */
-    max-width: 400px; /* Ограничиваем ширину для лучшего вида */
-    display: inline-block; /* Позволяет margin: auto центрировать блок */
-    opacity: 0; /* Скрываем по умолчанию */
-    transform: translateY(20px); /* Немного опускаем для анимации */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Плавная анимация */
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Мягкая тень для текста */
-    line-height: 1.4; /* Увеличиваем межстрочный интервал */
+    border: 1px solid rgba(255, 255, 255, 0.25); 
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); 
+    
+    /* ИСПРАВЛЕНИЕ НА ОДНУ СТРОКУ (П. 1) */
+    white-space: nowrap; /* Запрещаем перенос текста */
+    
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: opacity 0.5s ease, transform 0.5s ease; 
+    
+    /* ДОБАВЛЕННЫЙ ЭФФЕКТ ПЕРЕЛИВАНИЯ (П. 3) */
+    background-image: linear-gradient(90deg, #FF0000, #00A8FF, #FF0000); /* Красно-сине-красный градиент */
+    background-size: 200% auto; /* Градиент в 2 раза шире блока */
+    -webkit-background-clip: text; /* Обрезаем фон по форме текста */
+    background-clip: text; /* Обрезаем фон по форме текста */
+    color: transparent; /* Делаем текст прозрачным, чтобы видеть фон */
+    animation: textShimmer 3s linear infinite; /* Запускаем анимацию переливания */
+    
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
+    line-height: 1.4; 
+    position: relative; 
 }
 
 /* Класс для показа сообщения */
@@ -537,4 +545,22 @@ footer a {
 .no-results:hover {
     box-shadow: 0 10px 40px rgba(0, 168, 255, 0.5); /* Более яркая тень при наведении */
     transform: translateY(-5px) scale(1.02); /* Легкий подъем и увеличение */
+}
+
+
+/* Кастомный скролл для Chrome/Edge/Safari */
+#filterOptions::-webkit-scrollbar {
+    width: 8px;
+}
+#filterOptions::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+#filterOptions::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+#filterOptions::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
 }
