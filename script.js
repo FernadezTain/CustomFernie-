@@ -55,6 +55,12 @@ function renderGallery() {
   );
 
   if (filtered.length === 0) {
+    // Переключаем gallery в flex для центрирования
+    gallery.style.display = "flex";
+    gallery.style.justifyContent = "center";
+    gallery.style.alignItems = "center";
+    gallery.style.minHeight = "200px"; // чтобы блок не слипался
+
     const msg = document.createElement("p");
     msg.textContent = "Ничего не найдено :(";
     msg.className = "no-results";
@@ -62,6 +68,11 @@ function renderGallery() {
     setTimeout(() => msg.classList.add("show"), 50);
     return;
   }
+
+  // Восстанавливаем grid при наличии элементов
+  gallery.style.display = "grid";
+  gallery.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 1fr))";
+  gallery.style.gap = "20px";
 
   filtered.forEach(bg => {
     const card = document.createElement("div");
@@ -92,6 +103,7 @@ function renderGallery() {
     });
   });
 }
+
 
 searchInput.addEventListener("input", renderGallery);
 
