@@ -513,7 +513,6 @@ footer a {
     position: relative;
 }
 
-
 /* Класс для показа сообщения */
 .no-results.show {
     opacity: 1; /* Показываем */
@@ -546,6 +545,17 @@ footer a {
     transform: translateY(-5px) scale(1.02); /* Легкий подъем и увеличение */
 }
 
+.no-results {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+@media (max-width: 600px) {
+    .no-results {
+        font-size: 1.2em;
+        padding: 15px 20px;
+        border-radius: 12px;
+    }
+}
 
 /* Кастомный скролл для Chrome/Edge/Safari */
 #filterOptions::-webkit-scrollbar {
