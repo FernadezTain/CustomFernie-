@@ -158,3 +158,21 @@ setBtn.addEventListener("click", () => {
     window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
   }
 });
+// Инициализация частиц
+tsParticles.load("tsparticles", {
+  fpsLimit: 60,
+  particles: {
+    number: { value: 50, density: { enable: true, area: 800 } },
+    color: { value: "#ffffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.5 },
+    size: { value: 3, random: true },
+    links: { enable: true, distance: 120, color: "#ffffff", opacity: 0.3, width: 1 },
+    move: { enable: true, speed: 1.5, outModes: { default: "out" } }
+  },
+  interactivity: {
+    events: { onHover: { enable: true, mode: "repulse" }, onClick: { enable: true, mode: "push" } },
+    modes: { repulse: { distance: 100 }, push: { quantity: 4 } }
+  },
+  detectRetina: true
+});
