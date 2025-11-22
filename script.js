@@ -183,7 +183,7 @@ closeBtn.addEventListener("click", () => {
 // --- Установка фона ---
 setBtn.addEventListener("click", () => {
   if (selectedArg) {
-    window.location.href = `https://t.me/FernieUIBot?start=CustF${selectedArg}`;
+    window.location.href = `https://t.me/FernieXBot?start=CustF${selectedArg}`;
   }
 });
 
