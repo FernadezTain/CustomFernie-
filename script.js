@@ -1,3 +1,7 @@
+// --- ДИАГНОСТИКА: Логирование загрузки файлов ---
+console.log("🔍 НАЧАЛО ЗАГРУЗКИ ГАЛЕРЕИ");
+console.log("📁 Текущий URL:", window.location.href);
+
 // --- 1. Данные для Галереи ---
 const backgrounds = [
   // Бесплатные фоны
@@ -16,7 +20,7 @@ const backgrounds = [
   { file: "profile_anime3.png", name: "Хранительница ночи", arg: "profile_anime3", category: ["standard", "anime", "free"], isGif: false },
   { file: "profile_anime4.png", name: "Секреты Фосада", arg: "profile_anime4", category: ["standard", "anime", "free"], isGif: false },
   
-  // Примеры GIF фонов (добавьте свои)
+  // GIF фоны - ПРАВИЛЬНО УКАЗАНЫ
   { file: "gif_1.gif", name: "Анимированный фон - 1", arg: "gif_1", category: ["new", "free"], isGif: true },
   { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
   
@@ -31,6 +35,9 @@ const backgrounds = [
   { file: "MajesticRPRainEMS.png", name: "MajesticRP | EMS | Дождливая ночь", arg: "MajesticRPRainEMS", price: 25000, category: ["standard", "paid"], isGif: false },
   { file: "MajesticRPSnowEMS.png", name: "MajesticRP | EMS | Снежная ночь", arg: "MajesticRPSnowEMS", price: 30000, category: ["standard", "paid"], isGif: false },
 ];
+
+// Логируем все GIF файлы
+console.log("🎬 GIF файлы в массиве:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
 
 const openBtn = document.getElementById("openBtn");
 const backBtn = document.getElementById("backBtn");
@@ -50,6 +57,29 @@ const searchInput = document.getElementById("searchInput");
 
 let selectedArg = "";
 let currentCategory = "all";
+
+// --- ФУНКЦИЯ ДИАГНОСТИКИ ЗАГРУЗКИ ФАЙЛА ---
+function checkFileLoading(fileUrl) {
+  fetch(fileUrl, { method: 'HEAD' })
+    .then(response => {
+      if (response.ok) {
+        console.log(`✅ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
+      } else {
+        console.error(`❌ НЕ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
+      }
+    })
+    .catch(error => {
+      console.error(`❌ ОШИБКА загрузки: ${fileUrl}`, error);
+    });
+}
+
+// Проверяем все GIF файлы при загрузке страницы
+window.addEventListener('load', () => {
+  console.log("🔄 ПРОВЕРКА ЗАГРУЗКИ ФАЙЛОВ:");
+  backgrounds.filter(bg => bg.isGif).forEach(bg => {
+    checkFileLoading(bg.file);
+  });
+});
 
 // --- Галерея ---
 function renderGallery() {
@@ -97,7 +127,24 @@ function renderGallery() {
     gallery.appendChild(card);
     setTimeout(() => card.classList.add("show"), 50);
 
-    card.querySelector("img").addEventListener("click", () => {
+    // ДОБАВЛЕНА ДИАГНОСТИКА: Логирование ошибок загрузки изображения
+    const imgElement = card.querySelector("img");
+    
+    imgElement.addEventListener("error", () => {
+      console.error(`❌ ОШИБКА загрузки изображения: ${bg.file}`);
+      console.log(`   Попробуйте один из вариантов:`);
+      console.log(`   1. Убедитесь что файл находится в одной папке с HTML`);
+      console.log(`   2. Проверьте точное имя: "${bg.file}"`);
+      console.log(`   3. Проверьте регистр букв (GIF vs gif)`);
+      card.style.border = "2px solid red";
+      imgElement.style.opacity = "0.3";
+    });
+
+    imgElement.addEventListener("load", () => {
+      console.log(`✅ ЗАГРУЖЕНО: ${bg.file}`);
+    });
+
+    imgElement.addEventListener("click", () => {
       selectedArg = bg.arg;
       overlayImage.src = bg.file;
       overlayImage.style.transform = "scale(1)";
@@ -143,7 +190,6 @@ openBtn.addEventListener("click", () => {
 
   backBtn.classList.remove("hidden");
   filterContainer.classList.remove("hidden");
-  // Важно: убираем класс 'hidden' и с filterOptions, чтобы он мог показаться
   filterOptions.classList.add("hidden"); 
   filterOptions.classList.remove("show");
 
@@ -159,7 +205,7 @@ backBtn.addEventListener("click", () => {
 
   backBtn.classList.add("hidden");
   filterContainer.classList.add("hidden");
-  filterOptions.classList.add("hidden"); // Скрываем меню фильтров при возврате
+  filterOptions.classList.add("hidden");
 
   title.style.transform = "translateY(0)";
   title.style.fontSize = "28px";
@@ -172,17 +218,13 @@ backBtn.addEventListener("click", () => {
 
 // --- ИСПРАВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ ФИЛЬТРА ---
 filterBtn.addEventListener("click", () => {
-    // Переключаем класс hidden, чтобы элемент стал видимым для анимации (opacity/transform)
     filterOptions.classList.toggle("hidden");
-    // Переключаем класс show для анимации opacity/transform
     filterOptions.classList.toggle("show", !filterOptions.classList.contains("hidden"));
 });
-// ------------------------------------------------
 
 document.querySelectorAll(".filter-option").forEach(btn => {
   btn.addEventListener("click", () => {
     currentCategory = btn.dataset.category;
-    // При выборе фильтра всегда скрываем меню
     filterOptions.classList.add("hidden"); 
     filterOptions.classList.remove("show");
     renderGallery();
@@ -209,7 +251,6 @@ setBtn.addEventListener("click", () => {
 
 // --- Инициализация частиц ---
 tsParticles.load("tsparticles", {
-  // ... настройки частиц
   fpsLimit: 60,
   particles: {
     number: { value: 50, density: { enable: true, area: 800 } },
@@ -227,7 +268,11 @@ tsParticles.load("tsparticles", {
   detectRetina: true
 });
 
-// --- Запуск галереи при загрузке (по желанию, если галерея должна быть видна сразу) ---
+// --- Запуск галереи при загрузке ---
 document.addEventListener('DOMContentLoaded', () => {
-    // renderGallery(); 
+    console.log("✅ PAGE LOADED - Галерея готова к использованию");
 });
+
+// ФИНАЛЬНОЕ ЛОГИРОВАНИЕ
+console.log("🎉 JavaScript загружен успешно!");
+console.log("Откройте DevTools (F12) → Console для диагностики");
