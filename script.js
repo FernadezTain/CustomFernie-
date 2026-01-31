@@ -2,8 +2,18 @@
 console.log("🔍 НАЧАЛО ЗАГРУЗКИ ГАЛЕРЕИ");
 console.log("📁 Текущий URL:", window.location.href);
 
+// --- СИСТЕМА АВТОМАТИЧЕСКОЙ ЗАМЕНЫ GIF НА ВАЛИДНЫЕ ФАЙЛЫ ---
+// Если gif_1.gif и gif_2.gif повреждены, они будут заменены на:
+// 1. Первый найденный валидный формат
+// 2. Или скрыты из галереи
+
+const GIF_REPLACEMENTS = {
+  "gif_1.gif": ["gif_1.png", "gif_1.jpg", "gif_1.jpeg", "gif_1.webp"],
+  "gif_2.gif": ["gif_2.png", "gif_2.jpg", "gif_2.jpeg", "gif_2.webp"],
+};
+
 // --- 1. Данные для Галереи ---
-const backgrounds = [
+let backgrounds = [
   // Бесплатные фоны
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard", "free"], isGif: false },
   { file: "profile_creeper_Minecraft.png", name: "Крипер Minecraft", arg: "minecraft1", category: ["standard", "free"], isGif: false },
@@ -20,12 +30,7 @@ const backgrounds = [
   { file: "profile_anime3.png", name: "Хранительница ночи", arg: "profile_anime3", category: ["standard", "anime", "free"], isGif: false },
   { file: "profile_anime4.png", name: "Секреты Фосада", arg: "profile_anime4", category: ["standard", "anime", "free"], isGif: false },
   
-  // 🎬 GIF ФОНЫ
-  // ВАЖНО: Если эти файлы повреждены, скрипт автоматически:
-  // 1. Попытается найти .png версию (gif_1.png, gif_2.png)
-  // 2. Если нет - показывает карточку с предупреждением
-  // 3. Помечает как "Требует обновления"
-  
+  // GIF ФОНЫ (будут проверены и заменены на валидные файлы)
   { file: "gif_1.gif", name: "Анимированный фон - 1", arg: "gif_1", category: ["new", "free"], isGif: true },
   { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
   
@@ -41,7 +46,7 @@ const backgrounds = [
   { file: "MajesticRPSnowEMS.png", name: "MajesticRP | EMS | Снежная ночь", arg: "MajesticRPSnowEMS", price: 30000, category: ["standard", "paid"], isGif: false },
 ];
 
-console.log("🎬 GIF файлы в массиве:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
+console.log("🎬 GIF файлы ДО проверки:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
 
 const openBtn = document.getElementById("openBtn");
 const backBtn = document.getElementById("backBtn");
@@ -62,39 +67,9 @@ const searchInput = document.getElementById("searchInput");
 let selectedArg = "";
 let currentCategory = "all";
 
-// --- СИСТЕМА АВТОМАТИЧЕСКОЙ ПОДМЕНЫ ФАЙЛОВ ---
-const fallbackFiles = new Map(); // Сохраняем альтернативные файлы
-
-// Функция для поиска альтернативного файла
-async function findAlternativeFile(fileName) {
-  const baseName = fileName.split('.')[0];
-  const alternatives = [
-    `${baseName}.png`,  // Если GIF не работает, пробуем PNG
-    `${baseName}.jpg`,
-    `${baseName}.jpeg`,
-    `${baseName}.webp`,
-  ];
-
-  for (let altFile of alternatives) {
-    try {
-      const response = await fetch(altFile, { method: 'HEAD' });
-      if (response.ok) {
-        console.log(`✅ НАЙДЕН АЛЬТЕРНАТИВНЫЙ ФАЙЛ: ${altFile} для ${fileName}`);
-        fallbackFiles.set(fileName, altFile);
-        return altFile;
-      }
-    } catch (e) {
-      // Файл не существует, пробуем следующий
-    }
-  }
-  
-  console.warn(`❌ НЕ НАЙДЕНА АЛЬТЕРНАТИВА для ${fileName}`);
-  return null;
-}
-
-// Проверка и подмена файлов при загрузке
-window.addEventListener('load', async () => {
-  console.log("🔄 ПРОВЕРКА ВАЛИДНОСТИ ФАЙЛОВ:");
+// --- ФУНКЦИЯ ЗАМЕНЫ НЕВАЛИДНЫХ GIF ---
+async function replaceInvalidGifs() {
+  console.log("🔄 ПРОВЕРКА И ЗАМЕНА НЕВАЛИДНЫХ GIF ФАЙЛОВ:");
   
   for (let bg of backgrounds.filter(b => b.isGif)) {
     try {
@@ -108,19 +83,72 @@ window.addEventListener('load', async () => {
       if (isValidGif) {
         console.log(`✅ ВАЛИДНЫЙ GIF: ${bg.file}`);
       } else {
-        console.error(`❌ НЕВАЛИДНЫЙ GIF: ${bg.file} (Тип: ${String.fromCharCode(view[0], view[1], view[2])})`);
+        // GIF невалиден - ищем альтернативу
+        console.error(`❌ НЕВАЛИДНЫЙ GIF: ${bg.file}`);
         
-        // Ищем альтернативу
-        const alternative = await findAlternativeFile(bg.file);
-        if (alternative) {
-          console.log(`✅ ИСПОЛЬЗУЮ АЛЬТЕРНАТИВУ: ${alternative}`);
+        // Определяем что это на самом деле
+        let realType = "НЕИЗВЕСТНО";
+        // PNG: 137 80 78 71
+        if (view[0] === 137 && view[1] === 80 && view[2] === 78 && view[3] === 71) {
+          realType = "PNG";
+        }
+        // JPG: 255 216 255
+        else if (view[0] === 255 && view[1] === 216 && view[2] === 255) {
+          realType = "JPG";
+        }
+        // WebP: 82 73 70 70 (RIFF)
+        else if (view[0] === 82 && view[1] === 73 && view[2] === 70) {
+          realType = "RIFF/WebP";
+        }
+        
+        console.log(`   На самом деле это: ${realType}`);
+        console.log(`   Пытаюсь найти альтернативу...`);
+        
+        // Ищем альтернативные файлы
+        let alternatives = GIF_REPLACEMENTS[bg.file] || [];
+        let found = false;
+        
+        for (let altFile of alternatives) {
+          try {
+            const altResponse = await fetch(altFile, { method: 'HEAD' });
+            if (altResponse.ok) {
+              console.log(`✅ НАЙДЕНА ЗАМЕНА: ${altFile} вместо ${bg.file}`);
+              bg.file = altFile;
+              
+              // Если это PNG или JPG, то это не GIF
+              if (altFile.endsWith('.png') || altFile.endsWith('.jpg') || altFile.endsWith('.jpeg')) {
+                bg.isGif = false;
+              }
+              
+              found = true;
+              break;
+            }
+          } catch (e) {
+            // Файл не существует, пробуем следующий
+          }
+        }
+        
+        if (!found) {
+          console.warn(`❌ ЗАМЕНА НЕ НАЙДЕНА для ${bg.file}`);
+          console.log(`   Рекомендация: загрузите один из файлов:`);
+          alternatives.forEach(alt => console.log(`   - ${alt}`));
+          
+          // Удаляем невалидный GIF из галереи
+          backgrounds = backgrounds.filter(item => item.file !== bg.file);
+          console.log(`   ⚠️ Файл удалён из галереи`);
         }
       }
     } catch (error) {
-      console.error(`❌ ОШИБКА проверки: ${bg.file}`, error);
+      console.error(`❌ ОШИБКА при проверке ${bg.file}:`, error);
     }
   }
-});
+  
+  console.log("✅ ПРОВЕРКА ЗАВЕРШЕНА");
+  console.log("🎬 GIF файлы ПОСЛЕ замены:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
+}
+
+// Запускаем замену при загрузке страницы
+window.addEventListener('load', replaceInvalidGifs);
 
 // --- Галерея ---
 function renderGallery() {
@@ -155,12 +183,9 @@ function renderGallery() {
     
     const gifBadge = bg.isGif ? '<span class="gif-badge">GIF</span>' : '';
     
-    // Используем сохранённый альтернативный файл или оригинальный
-    const fileToUse = fallbackFiles.get(bg.file) || bg.file;
-    
     card.innerHTML = `
       <div class="card-image-wrapper">
-        <img src="${fileToUse}" alt="${bg.name}" data-arg="${bg.arg}" data-original="${bg.file}">
+        <img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}">
         ${gifBadge}
       </div>
       <p>${bg.name}</p>
@@ -170,55 +195,20 @@ function renderGallery() {
 
     const imgElement = card.querySelector("img");
     
-    // Обработчик ошибки - пытаемся найти альтернативу
-    imgElement.addEventListener("error", async (e) => {
-      const originalFile = imgElement.getAttribute("data-original");
-      console.error(`❌ ОШИБКА загрузки: ${fileToUse} (оригинал: ${originalFile})`);
-      
-      // Если это альтернативный файл и он не работает
-      if (fileToUse !== originalFile) {
-        console.log(`⚠️ Альтернативный файл ${fileToUse} тоже не работает`);
-      } else {
-        // Пробуем найти альтернативу
-        const alternative = await findAlternativeFile(originalFile);
-        if (alternative) {
-          console.log(`🔄 ПОВТОРНАЯ ПОПЫТКА с ${alternative}`);
-          imgElement.src = alternative;
-          fallbackFiles.set(originalFile, alternative);
-          return;
-        }
-      }
-      
-      // Если ничего не сработало - показываем заглушку
+    imgElement.addEventListener("error", () => {
+      console.error(`❌ ОШИБКА загрузки: ${bg.file}`);
       card.style.border = "2px solid red";
       card.style.backgroundColor = "rgba(255, 0, 0, 0.1)";
-      imgElement.style.backgroundColor = "#333";
       imgElement.style.opacity = "0.3";
-      
-      const warning = document.createElement("div");
-      warning.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #ff0000;
-        font-size: 11px;
-        text-align: center;
-        z-index: 5;
-        pointer-events: none;
-        width: 80%;
-      `;
-      warning.innerHTML = `⚠️ Требует<br>обновления`;
-      card.querySelector(".card-image-wrapper").appendChild(warning);
     });
 
     imgElement.addEventListener("load", () => {
-      console.log(`✅ ЗАГРУЖЕНО: ${fileToUse}`);
+      console.log(`✅ ЗАГРУЖЕНО: ${bg.file}`);
     });
 
     imgElement.addEventListener("click", () => {
       selectedArg = bg.arg;
-      overlayImage.src = fileToUse;
+      overlayImage.src = bg.file;
       overlayImage.style.transform = "scale(1)";
       overlay.classList.remove("hidden");
 
@@ -343,5 +333,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 console.log("🎉 JavaScript загружен успешно!");
-console.log("ℹ️ Автоматическая система подмены файлов активна");
+console.log("🔧 Автоматическая система замены невалидных GIF активна");
 console.log("Откройте DevTools (F12) → Console для диагностики");
