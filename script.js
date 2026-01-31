@@ -20,11 +20,11 @@ const backgrounds = [
   { file: "profile_anime3.png", name: "Хранительница ночи", arg: "profile_anime3", category: ["standard", "anime", "free"], isGif: false },
   { file: "profile_anime4.png", name: "Секреты Фосада", arg: "profile_anime4", category: ["standard", "anime", "free"], isGif: false },
   
-  // 🎬 GIF ФОНЫ - ИСПРАВЛЕНО
-  // ВАЖНО: Если GIF не загружаются, это может быть:
-  // 1. Файл повреждён
-  // 2. Неправильный MIME type на сервере
-  // 3. GIF файл на самом деле является статичным изображением
+  // 🎬 GIF ФОНЫ
+  // ВАЖНО: Если эти файлы повреждены, скрипт автоматически:
+  // 1. Попытается найти .png версию (gif_1.png, gif_2.png)
+  // 2. Если нет - показывает карточку с предупреждением
+  // 3. Помечает как "Требует обновления"
   
   { file: "gif_1.gif", name: "Анимированный фон - 1", arg: "gif_1", category: ["new", "free"], isGif: true },
   { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
@@ -41,7 +41,6 @@ const backgrounds = [
   { file: "MajesticRPSnowEMS.png", name: "MajesticRP | EMS | Снежная ночь", arg: "MajesticRPSnowEMS", price: 30000, category: ["standard", "paid"], isGif: false },
 ];
 
-// Логируем все GIF файлы
 console.log("🎬 GIF файлы в массиве:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
 
 const openBtn = document.getElementById("openBtn");
@@ -63,51 +62,64 @@ const searchInput = document.getElementById("searchInput");
 let selectedArg = "";
 let currentCategory = "all";
 
-// --- ФУНКЦИЯ ПРОВЕРКИ ФОРМАТА GIF ---
-function checkGifFormat(fileUrl) {
-  fetch(fileUrl)
-    .then(response => response.arrayBuffer())
-    .then(buffer => {
-      const view = new Uint8Array(buffer);
-      // GIF должен начинаться с "GIF89a" или "GIF87a"
-      const isGif = view[0] === 71 && view[1] === 73 && view[2] === 70; // GIF = 71,73,70
-      if (isGif) {
-        console.log(`✅ ВАЛИДНЫЙ GIF: ${fileUrl} (Магические байты: ${String.fromCharCode(view[0], view[1], view[2])})`);
-      } else {
-        console.error(`❌ НЕВАЛИДНЫЙ GIF: ${fileUrl} (Начинается с: ${String.fromCharCode(view[0], view[1], view[2])})`);
-        console.warn(`   Это может быть PNG или другой формат!`);
-      }
-    })
-    .catch(error => {
-      console.error(`❌ ОШИБКА проверки GIF: ${fileUrl}`, error);
-    });
-}
+// --- СИСТЕМА АВТОМАТИЧЕСКОЙ ПОДМЕНЫ ФАЙЛОВ ---
+const fallbackFiles = new Map(); // Сохраняем альтернативные файлы
 
-// --- ФУНКЦИЯ ДИАГНОСТИКИ ЗАГРУЗКИ ФАЙЛА ---
-function checkFileLoading(fileUrl) {
-  fetch(fileUrl, { method: 'HEAD' })
-    .then(response => {
+// Функция для поиска альтернативного файла
+async function findAlternativeFile(fileName) {
+  const baseName = fileName.split('.')[0];
+  const alternatives = [
+    `${baseName}.png`,  // Если GIF не работает, пробуем PNG
+    `${baseName}.jpg`,
+    `${baseName}.jpeg`,
+    `${baseName}.webp`,
+  ];
+
+  for (let altFile of alternatives) {
+    try {
+      const response = await fetch(altFile, { method: 'HEAD' });
       if (response.ok) {
-        console.log(`✅ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
-        // Дополнительная проверка для GIF
-        if (fileUrl.endsWith('.gif')) {
-          checkGifFormat(fileUrl);
-        }
-      } else {
-        console.error(`❌ НЕ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
+        console.log(`✅ НАЙДЕН АЛЬТЕРНАТИВНЫЙ ФАЙЛ: ${altFile} для ${fileName}`);
+        fallbackFiles.set(fileName, altFile);
+        return altFile;
       }
-    })
-    .catch(error => {
-      console.error(`❌ ОШИБКА загрузки: ${fileUrl}`, error);
-    });
+    } catch (e) {
+      // Файл не существует, пробуем следующий
+    }
+  }
+  
+  console.warn(`❌ НЕ НАЙДЕНА АЛЬТЕРНАТИВА для ${fileName}`);
+  return null;
 }
 
-// Проверяем все GIF файлы при загрузке страницы
-window.addEventListener('load', () => {
-  console.log("🔄 ПРОВЕРКА ЗАГРУЗКИ ФАЙЛОВ:");
-  backgrounds.filter(bg => bg.isGif).forEach(bg => {
-    checkFileLoading(bg.file);
-  });
+// Проверка и подмена файлов при загрузке
+window.addEventListener('load', async () => {
+  console.log("🔄 ПРОВЕРКА ВАЛИДНОСТИ ФАЙЛОВ:");
+  
+  for (let bg of backgrounds.filter(b => b.isGif)) {
+    try {
+      const response = await fetch(bg.file);
+      const buffer = await response.arrayBuffer();
+      const view = new Uint8Array(buffer);
+      
+      // Проверяем магические байты GIF (71, 73, 70 = "GIF")
+      const isValidGif = view[0] === 71 && view[1] === 73 && view[2] === 70;
+      
+      if (isValidGif) {
+        console.log(`✅ ВАЛИДНЫЙ GIF: ${bg.file}`);
+      } else {
+        console.error(`❌ НЕВАЛИДНЫЙ GIF: ${bg.file} (Тип: ${String.fromCharCode(view[0], view[1], view[2])})`);
+        
+        // Ищем альтернативу
+        const alternative = await findAlternativeFile(bg.file);
+        if (alternative) {
+          console.log(`✅ ИСПОЛЬЗУЮ АЛЬТЕРНАТИВУ: ${alternative}`);
+        }
+      }
+    } catch (error) {
+      console.error(`❌ ОШИБКА проверки: ${bg.file}`, error);
+    }
+  }
 });
 
 // --- Галерея ---
@@ -143,9 +155,12 @@ function renderGallery() {
     
     const gifBadge = bg.isGif ? '<span class="gif-badge">GIF</span>' : '';
     
+    // Используем сохранённый альтернативный файл или оригинальный
+    const fileToUse = fallbackFiles.get(bg.file) || bg.file;
+    
     card.innerHTML = `
       <div class="card-image-wrapper">
-        <img src="${bg.file}" alt="${bg.name}" data-arg="${bg.arg}">
+        <img src="${fileToUse}" alt="${bg.name}" data-arg="${bg.arg}" data-original="${bg.file}">
         ${gifBadge}
       </div>
       <p>${bg.name}</p>
@@ -155,44 +170,55 @@ function renderGallery() {
 
     const imgElement = card.querySelector("img");
     
-    imgElement.addEventListener("error", (e) => {
-      console.error(`❌ ОШИБКА загрузки изображения: ${bg.file}`);
-      console.log(`   Возможные причины:`);
-      console.log(`   1. Файл повреждён`);
-      console.log(`   2. Неправильный MIME type на сервере`);
-      console.log(`   3. GIF файл на самом деле PNG или другой формат`);
-      console.log(`   4. Проблема с кодировкой файла`);
+    // Обработчик ошибки - пытаемся найти альтернативу
+    imgElement.addEventListener("error", async (e) => {
+      const originalFile = imgElement.getAttribute("data-original");
+      console.error(`❌ ОШИБКА загрузки: ${fileToUse} (оригинал: ${originalFile})`);
       
-      // РЕШЕНИЕ: Добавляем альтернативный фон
-      card.style.border = "2px solid orange";
-      card.style.backgroundColor = "rgba(255, 165, 0, 0.1)";
+      // Если это альтернативный файл и он не работает
+      if (fileToUse !== originalFile) {
+        console.log(`⚠️ Альтернативный файл ${fileToUse} тоже не работает`);
+      } else {
+        // Пробуем найти альтернативу
+        const alternative = await findAlternativeFile(originalFile);
+        if (alternative) {
+          console.log(`🔄 ПОВТОРНАЯ ПОПЫТКА с ${alternative}`);
+          imgElement.src = alternative;
+          fallbackFiles.set(originalFile, alternative);
+          return;
+        }
+      }
+      
+      // Если ничего не сработало - показываем заглушку
+      card.style.border = "2px solid red";
+      card.style.backgroundColor = "rgba(255, 0, 0, 0.1)";
       imgElement.style.backgroundColor = "#333";
-      imgElement.style.opacity = "0.5";
+      imgElement.style.opacity = "0.3";
       
-      // Показываем предупреждение
       const warning = document.createElement("div");
       warning.style.cssText = `
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: #ffa500;
-        font-size: 12px;
+        color: #ff0000;
+        font-size: 11px;
         text-align: center;
         z-index: 5;
         pointer-events: none;
+        width: 80%;
       `;
-      warning.textContent = "⚠️ Ошибка загрузки";
+      warning.innerHTML = `⚠️ Требует<br>обновления`;
       card.querySelector(".card-image-wrapper").appendChild(warning);
     });
 
     imgElement.addEventListener("load", () => {
-      console.log(`✅ ЗАГРУЖЕНО: ${bg.file}`);
+      console.log(`✅ ЗАГРУЖЕНО: ${fileToUse}`);
     });
 
     imgElement.addEventListener("click", () => {
       selectedArg = bg.arg;
-      overlayImage.src = bg.file;
+      overlayImage.src = fileToUse;
       overlayImage.style.transform = "scale(1)";
       overlay.classList.remove("hidden");
 
@@ -259,7 +285,7 @@ backBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// --- ИСПРАВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ ФИЛЬТРА ---
+// --- ОБРАБОТЧИК КНОПКИ ФИЛЬТРА ---
 filterBtn.addEventListener("click", () => {
     filterOptions.classList.toggle("hidden");
     filterOptions.classList.toggle("show", !filterOptions.classList.contains("hidden"));
@@ -311,10 +337,11 @@ tsParticles.load("tsparticles", {
   detectRetina: true
 });
 
-// --- Запуск галереи при загрузке ---
+// --- Запуск при загрузке ---
 document.addEventListener('DOMContentLoaded', () => {
     console.log("✅ PAGE LOADED - Галерея готова к использованию");
 });
 
 console.log("🎉 JavaScript загружен успешно!");
+console.log("ℹ️ Автоматическая система подмены файлов активна");
 console.log("Откройте DevTools (F12) → Console для диагностики");
