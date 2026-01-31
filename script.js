@@ -21,10 +21,11 @@ const backgrounds = [
   { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
   
   // Платные фоны
-  { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["standard", "paid"], isGif: false },
-  { file: "lizka_2.png", name: "Lizka - 2", arg: "lizka_2", price: 30000, category: ["standard", "paid"], isGif: false },
+  { file: "lizka_1.png", name: "Lizka", arg: "lizka_1", price: 17000, category: ["custom", "paid"], isGif: false },
+  { file: "lizka_2.png", name: "Lizka - 2", arg: "lizka_2", price: 30000, category: ["custom", "paid"], isGif: false },
   { file: "KO3AA_1.png", name: "KO3AA - 1", arg: "KO3AA_1", price: 10000, category: ["standard", "anime", "paid"], isGif: false },
-  { file: "lizka_3.png", name: "Lizka - 3", arg: "lizka_3", price: 50000, category: ["standard", "paid"], isGif: false },
+  { file: "lizka_3.png", name: "Lizka - 3", arg: "lizka_3", price: 50000, category: ["custom", "paid"], isGif: false },
+  { file: "lizka_4.png", name: "Lizka - 4", arg: "lizka_4", category: ["custom", "free"], isGif: false },
   { file: "wiongoffical_1.png", name: "wiongoffical - 1", arg: "wiongoffical_1", price: 15000, category: ["standard", "anime", "paid"], isGif: false },
   { file: "profile_anime5.png", name: "Осколки тьмы", arg: "profile_anime5", price: 20000, category: ["standard", "anime", "paid"], isGif: false },
   { file: "MajesticRPRainEMS.png", name: "MajesticRP | EMS | Дождливая ночь", arg: "MajesticRPRainEMS", price: 25000, category: ["standard", "paid"], isGif: false },
