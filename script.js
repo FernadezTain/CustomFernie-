@@ -20,7 +20,12 @@ const backgrounds = [
   { file: "profile_anime3.png", name: "Хранительница ночи", arg: "profile_anime3", category: ["standard", "anime", "free"], isGif: false },
   { file: "profile_anime4.png", name: "Секреты Фосада", arg: "profile_anime4", category: ["standard", "anime", "free"], isGif: false },
   
-  // GIF фоны - ПРАВИЛЬНО УКАЗАНЫ
+  // 🎬 GIF ФОНЫ - ИСПРАВЛЕНО
+  // ВАЖНО: Если GIF не загружаются, это может быть:
+  // 1. Файл повреждён
+  // 2. Неправильный MIME type на сервере
+  // 3. GIF файл на самом деле является статичным изображением
+  
   { file: "gif_1.gif", name: "Анимированный фон - 1", arg: "gif_1", category: ["new", "free"], isGif: true },
   { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
   
@@ -58,12 +63,36 @@ const searchInput = document.getElementById("searchInput");
 let selectedArg = "";
 let currentCategory = "all";
 
+// --- ФУНКЦИЯ ПРОВЕРКИ ФОРМАТА GIF ---
+function checkGifFormat(fileUrl) {
+  fetch(fileUrl)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      const view = new Uint8Array(buffer);
+      // GIF должен начинаться с "GIF89a" или "GIF87a"
+      const isGif = view[0] === 71 && view[1] === 73 && view[2] === 70; // GIF = 71,73,70
+      if (isGif) {
+        console.log(`✅ ВАЛИДНЫЙ GIF: ${fileUrl} (Магические байты: ${String.fromCharCode(view[0], view[1], view[2])})`);
+      } else {
+        console.error(`❌ НЕВАЛИДНЫЙ GIF: ${fileUrl} (Начинается с: ${String.fromCharCode(view[0], view[1], view[2])})`);
+        console.warn(`   Это может быть PNG или другой формат!`);
+      }
+    })
+    .catch(error => {
+      console.error(`❌ ОШИБКА проверки GIF: ${fileUrl}`, error);
+    });
+}
+
 // --- ФУНКЦИЯ ДИАГНОСТИКИ ЗАГРУЗКИ ФАЙЛА ---
 function checkFileLoading(fileUrl) {
   fetch(fileUrl, { method: 'HEAD' })
     .then(response => {
       if (response.ok) {
         console.log(`✅ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
+        // Дополнительная проверка для GIF
+        if (fileUrl.endsWith('.gif')) {
+          checkGifFormat(fileUrl);
+        }
       } else {
         console.error(`❌ НЕ НАЙДЕН: ${fileUrl} (Status: ${response.status})`);
       }
@@ -91,11 +120,10 @@ function renderGallery() {
   );
 
   if (filtered.length === 0) {
-    // Переключаем gallery в flex для центрирования
     gallery.style.display = "flex";
     gallery.style.justifyContent = "center";
     gallery.style.alignItems = "center";
-    gallery.style.minHeight = "200px"; // чтобы блок не слипался
+    gallery.style.minHeight = "200px";
 
     const msg = document.createElement("p");
     msg.textContent = "Ничего не найдено :(";
@@ -105,7 +133,6 @@ function renderGallery() {
     return;
   }
 
-  // Восстанавливаем grid при наличии элементов
   gallery.style.display = "grid";
   gallery.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 1fr))";
   gallery.style.gap = "20px";
@@ -114,7 +141,6 @@ function renderGallery() {
     const card = document.createElement("div");
     card.className = "card fade";
     
-    // Добавляем бейдж для GIF
     const gifBadge = bg.isGif ? '<span class="gif-badge">GIF</span>' : '';
     
     card.innerHTML = `
@@ -127,17 +153,37 @@ function renderGallery() {
     gallery.appendChild(card);
     setTimeout(() => card.classList.add("show"), 50);
 
-    // ДОБАВЛЕНА ДИАГНОСТИКА: Логирование ошибок загрузки изображения
     const imgElement = card.querySelector("img");
     
-    imgElement.addEventListener("error", () => {
+    imgElement.addEventListener("error", (e) => {
       console.error(`❌ ОШИБКА загрузки изображения: ${bg.file}`);
-      console.log(`   Попробуйте один из вариантов:`);
-      console.log(`   1. Убедитесь что файл находится в одной папке с HTML`);
-      console.log(`   2. Проверьте точное имя: "${bg.file}"`);
-      console.log(`   3. Проверьте регистр букв (GIF vs gif)`);
-      card.style.border = "2px solid red";
-      imgElement.style.opacity = "0.3";
+      console.log(`   Возможные причины:`);
+      console.log(`   1. Файл повреждён`);
+      console.log(`   2. Неправильный MIME type на сервере`);
+      console.log(`   3. GIF файл на самом деле PNG или другой формат`);
+      console.log(`   4. Проблема с кодировкой файла`);
+      
+      // РЕШЕНИЕ: Добавляем альтернативный фон
+      card.style.border = "2px solid orange";
+      card.style.backgroundColor = "rgba(255, 165, 0, 0.1)";
+      imgElement.style.backgroundColor = "#333";
+      imgElement.style.opacity = "0.5";
+      
+      // Показываем предупреждение
+      const warning = document.createElement("div");
+      warning.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffa500;
+        font-size: 12px;
+        text-align: center;
+        z-index: 5;
+        pointer-events: none;
+      `;
+      warning.textContent = "⚠️ Ошибка загрузки";
+      card.querySelector(".card-image-wrapper").appendChild(warning);
     });
 
     imgElement.addEventListener("load", () => {
@@ -150,10 +196,8 @@ function renderGallery() {
       overlayImage.style.transform = "scale(1)";
       overlay.classList.remove("hidden");
 
-      // --- Инфо-блок ---
       let infoHTML = `<h3>${bg.name}</h3><hr>`;
       
-      // Добавляем значок GIF если это GIF
       if (bg.isGif) {
         infoHTML += `<p><b>🎬 Тип:</b> Анимированный GIF</p>`;
       }
@@ -171,7 +215,6 @@ function renderGallery() {
     });
   });
 }
-
 
 searchInput.addEventListener("input", renderGallery);
 
@@ -273,6 +316,5 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("✅ PAGE LOADED - Галерея готова к использованию");
 });
 
-// ФИНАЛЬНОЕ ЛОГИРОВАНИЕ
 console.log("🎉 JavaScript загружен успешно!");
 console.log("Откройте DevTools (F12) → Console для диагностики");
