@@ -10,6 +10,7 @@ console.log("📁 Текущий URL:", window.location.href);
 const GIF_REPLACEMENTS = {
   "gif_1.gif": ["gif_1.png", "gif_1.jpg", "gif_1.jpeg", "gif_1.webp"],
   "gif_2.gif": ["gif_2.png", "gif_2.jpg", "gif_2.jpeg", "gif_2.webp"],
+  "gif_3.gif": ["gif_3.png", "gif_3.jpg", "gif_3.jpeg", "gif_3.webp"],
 };
 
 // --- 1. Данные для Галереи ---
@@ -18,12 +19,15 @@ let backgrounds = [
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard", "free"], isGif: false },
   
   // GIF ФОНЫ (будут проверены и заменены на валидные файлы)
-  { file: "gif_1.gif", name: "Девушка и чай", arg: "gif_1", category: ["new", "free"], isGif: true },
-  { file: "gif_2.gif", name: "Довольный котик", arg: "gif_2", category: ["new", "free"], isGif: true },
-  { file: "gif_3.gif", name: "Пэс", arg: "gif_3", category: ["new", "free"], isGif: true },
+  { file: "gif_1.gif", name: "Девушка и чай", arg: "gif_1", category: ["standard", "free"], isGif: true },
+  { file: "gif_2.gif", name: "Довольный котик", arg: "gif_2", category: ["standard", "free"], isGif: true },
+  { file: "gif_3.gif", name: "Пэс", arg: "gif_3", category: ["new", "standard", "free"], isGif: true },
   
   // Платные фоны
-  { file: "lizka.png", name: "Lizka", arg: "lizka", category: ["custom", "free"], isGif: false },
+  { file: "lizka.png", name: "Lizka", arg: "lizka", category: ["custom", "paid"], isGif: false, price: 50000, buy_id: "456" },
+  { file: "girl2.png", name: "Манифест одиночества", arg: "girl2", category: ["standard", "new", "free"], isGif: false },
+  { file: "watergirl2.png", name: "Мгновение", arg: "watergirl2", category: ["standard", "new", "free"], isGif: false },
+  { file: "watergirl.png", name: "Шёпот тумана", arg: "watergirl", category: ["standard", "new", "free"], isGif: false },
 ];
 
 console.log("🎬 GIF файлы ДО проверки:", backgrounds.filter(bg => bg.isGif).map(bg => ({ name: bg.name, file: bg.file })));
