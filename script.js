@@ -18,8 +18,9 @@ let backgrounds = [
   { file: "profile_def.png", name: "Стандартный фон", arg: "def", category: ["standard", "free"], isGif: false },
   
   // GIF ФОНЫ (будут проверены и заменены на валидные файлы)
-  { file: "gif_1.gif", name: "Анимированный фон - 1", arg: "gif_1", category: ["new", "free"], isGif: true },
-  { file: "gif_2.gif", name: "Анимированный фон - 2", arg: "gif_2", category: ["new", "free"], isGif: true },
+  { file: "gif_1.gif", name: "Девушка и чай", arg: "gif_1", category: ["new", "free"], isGif: true },
+  { file: "gif_2.gif", name: "Довольный котик", arg: "gif_2", category: ["new", "free"], isGif: true },
+  { file: "gif_3.gif", name: "Пэс", arg: "gif_3", category: ["new", "free"], isGif: true },
   
   // Платные фоны
   { file: "lizka.png", name: "Lizka", arg: "lizka", category: ["custom", "free"], isGif: false },
