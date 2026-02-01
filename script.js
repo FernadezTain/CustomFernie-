@@ -11,6 +11,7 @@ const GIF_REPLACEMENTS = {
   "gif_1.gif": ["gif_1.png", "gif_1.jpg", "gif_1.jpeg", "gif_1.webp"],
   "gif_2.gif": ["gif_2.png", "gif_2.jpg", "gif_2.jpeg", "gif_2.webp"],
   "gif_3.gif": ["gif_3.png", "gif_3.jpg", "gif_3.jpeg", "gif_3.webp"],
+  "gif_4.gif": ["gif_4.png", "gif_4.jpg", "gif_4.jpeg", "gif_4.webp"],
 };
 
 // --- 1. Данные для Галереи ---
@@ -22,6 +23,7 @@ let backgrounds = [
   { file: "gif_1.gif", name: "Девушка и чай", arg: "gif_1", category: ["standard", "free"], isGif: true },
   { file: "gif_2.gif", name: "Довольный котик", arg: "gif_2", category: ["standard", "free"], isGif: true },
   { file: "gif_3.gif", name: "Пэс", arg: "gif_3", category: ["new", "standard", "free"], isGif: true },
+  { file: "gif_4.gif", name: "Anime Edit - 1", arg: "gif_4", category: ["new", "standard", "free"], isGif: true },
   
   // Платные фоны
   { file: "lizka.png", name: "Lizka", arg: "lizka", category: ["custom", "paid"], isGif: false, price: 50000, buy_id: "456" },
